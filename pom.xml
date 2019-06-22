@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.beben.tomasz.restaurant</groupId>
+    <artifactId>restaurant-modules</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <modules>
+        <module>restaurant-orders</module>
+        <module>commons</module>
+        <module>restaurant-products</module>
+        <module>restaurant-core</module>
+        <module>restaurant-user</module>
+        <module>test-module</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <lombok.version>1.18.6</lombok.version>
+        <slf4j-api.version>1.7.25</slf4j-api.version>
+        <commons-lang3.version>3.8.1</commons-lang3.version>
+        <commons-collections4.version>4.3</commons-collections4.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+
+        <spring.version>2.0.5.RELEASE</spring.version>
+        <cqrs.version>1.0-SNAPSHOT</cqrs.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>1.0.0-alpha-2</version>
+        </dependency>
+
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--/Orders Module-->
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.orders</groupId>
+                <artifactId>restaurant-orders-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.orders</groupId>
+                <artifactId>restaurant-orders-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.orders</groupId>
+                <artifactId>restaurant-orders-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.orders</groupId>
+                <artifactId>restaurant-orders-infrastructure-spring</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--/Products Module-->
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.products</groupId>
+                <artifactId>restaurant-products-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.products</groupId>
+                <artifactId>restaurant-products-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.products</groupId>
+                <artifactId>restaurant-products-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.products</groupId>
+                <artifactId>restaurant-products-infrastructure-spring</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--Core Modules-->
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.core</groupId>
+                <artifactId>restaurant-core-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.core</groupId>
+                <artifactId>restaurant-core-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.core</groupId>
+                <artifactId>restaurant-core-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.core</groupId>
+                <artifactId>restaurant-core-infrastructure-spring</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--/User module-->
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.user</groupId>
+                <artifactId>restaurant-user-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.user</groupId>
+                <artifactId>restaurant-user-domain</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.user</groupId>
+                <artifactId>restaurant-user-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.user</groupId>
+                <artifactId>restaurant-user-infrastructure-spring</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--/Others Module-->
+            <dependency>
+                <groupId>com.beben.tomasz.cqrs</groupId>
+                <artifactId>cqrs-api</artifactId>
+                <version>${cqrs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.cqrs</groupId>
+                <artifactId>cqrs-application</artifactId>
+                <version>${cqrs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.commons</groupId>
+                <artifactId>commons</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.test</groupId>
+                <artifactId>test-module</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!--Utils-->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>2.0.1.Final</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>attach-test-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>test-jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

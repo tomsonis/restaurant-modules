@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.beben.tomasz.restaurant.modules.orders</groupId>
+        <artifactId>restaurant-orders</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>restaurant-orders-application</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.beben.tomasz.restaurant.modules.orders</groupId>
+            <artifactId>restaurant-orders-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.beben.tomasz.restaurant.modules.orders</groupId>
+            <artifactId>restaurant-orders-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.beben.tomasz.cqrs</groupId>
+            <artifactId>cqrs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.beben.tomasz.restaurant.commons</groupId>
+            <artifactId>commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.beben.tomasz.restaurant.modules.user</groupId>
+            <artifactId>restaurant-user-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.beben.tomasz.restaurant.modules.products</groupId>
+            <artifactId>restaurant-products-api</artifactId>
+        </dependency>
+        <!-- TESTS -->
+        <dependency>
+            <groupId>com.beben.tomasz.restaurant.test</groupId>
+            <artifactId>test-module</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
