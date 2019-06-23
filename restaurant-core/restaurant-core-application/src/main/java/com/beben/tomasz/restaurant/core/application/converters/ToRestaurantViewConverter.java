@@ -12,7 +12,7 @@ public class ToRestaurantViewConverter implements Converter<Restaurant, Restaura
     @Override
     public RestaurantView convert(Restaurant restaurant) {
         return RestaurantView.of(
-                restaurant.getId(),
+                restaurant.getRestaurantId().getId(),
                 restaurant.getName(),
                 AddressView.of(
                         restaurant.getAddress().getStreet(),

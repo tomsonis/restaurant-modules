@@ -1,6 +1,15 @@
 package com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.write;
 
-import com.beben.tomasz.restaurant.orders.domain.order.*;
+import com.beben.tomasz.restaurant.orders.domain.order.ClientData;
+import com.beben.tomasz.restaurant.orders.domain.order.Order;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderItem;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderPayment;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderStatus;
+import com.beben.tomasz.restaurant.orders.domain.order.PaymentType;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantId;
+import com.beben.tomasz.restaurant.orders.domain.order.TableId;
+import com.beben.tomasz.restaurant.orders.domain.order.UserId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +19,21 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Version;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -19,7 +42,6 @@ import java.util.stream.Collectors;
 
 @Table
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @EntityListeners(AuditingEntityListener.class)
 public class OrderEntity implements Order {
@@ -38,9 +60,11 @@ public class OrderEntity implements Order {
     @Fetch(FetchMode.JOIN)
     private Set<OrderItemEntity> orderItemEntities;
 
+    @Getter
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    @Getter
     private BigDecimal totalAmount;
 
     @Embedded
@@ -59,6 +83,7 @@ public class OrderEntity implements Order {
     })
     private OrderClientData orderClientData;
 
+    @Getter
     private LocalTime arrivalTime;
 
     @CreatedDate
@@ -71,6 +96,30 @@ public class OrderEntity implements Order {
 
     @Version
     private Long version;
+
+    public OrderEntity(
+            String id,
+            String userReference,
+            String restaurantReference,
+            String tableReference,
+            Set<OrderItemEntity> orderItemEntities,
+            OrderStatus orderStatus,
+            PaymentType paymentType,
+            BigDecimal totalAmount,
+            OrderClientData orderClientData,
+            LocalTime arrivalTime
+    ) {
+        this.id = id;
+        this.userReference = userReference;
+        this.restaurantReference = restaurantReference;
+        this.tableReference = tableReference;
+        this.orderItemEntities = orderItemEntities;
+        this.orderStatus = orderStatus;
+        this.orderPaymentData = new OrderPaymentData(paymentType);
+        this.totalAmount = totalAmount;
+        this.orderClientData = orderClientData;
+        this.arrivalTime = arrivalTime;
+    }
 
     private OrderEntity(
             String id,
@@ -120,6 +169,26 @@ public class OrderEntity implements Order {
     }
 
     @Override
+    public OrderId getOrderId() {
+        return OrderId.of(id);
+    }
+
+    @Override
+    public UserId getUserReference() {
+        return UserId.of(userReference);
+    }
+
+    @Override
+    public RestaurantId getRestaurantReference() {
+        return RestaurantId.of(restaurantReference);
+    }
+
+    @Override
+    public TableId getTableReference() {
+        return TableId.of(tableReference);
+    }
+
+    @Override
     public Set<OrderItem> getOrderItemEntities() {
         return orderItemEntities.stream()
                 .map(orderItemEntity -> OrderItem.of(
@@ -139,5 +208,9 @@ public class OrderEntity implements Order {
     @Override
     public ClientData getClientData() {
         return orderClientData;
+    }
+
+    void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

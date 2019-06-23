@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface RestaurantRepository {
 
-    String save(Restaurant restaurant);
+    RestaurantId save(Restaurant restaurant);
 
-    Restaurant findById(String id) throws RestaurantNotExistException;
+    Restaurant findById(RestaurantId id) throws RestaurantNotExistException;
 
     RestaurantId generateId();
 
@@ -14,5 +14,5 @@ public interface RestaurantRepository {
 
     List<Restaurant> findAll(int page, int size);
 
-    boolean exists(String restaurantId);
+    boolean exists(RestaurantId restaurantId);
 }

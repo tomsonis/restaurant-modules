@@ -4,7 +4,11 @@ import com.beben.tomasz.restaurant.orders.BaseOrdersIntegrationTest;
 import com.beben.tomasz.restaurant.orders.api.OrderDetailsView;
 import com.beben.tomasz.restaurant.orders.application.command.create.CreateOrderCommand;
 import com.beben.tomasz.restaurant.orders.application.query.user.details.OrderDetailsQuery;
-import com.beben.tomasz.restaurant.orders.domain.order.*;
+import com.beben.tomasz.restaurant.orders.domain.order.Order;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderClient;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderItem;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderStatus;
 import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.TestOrdersDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
@@ -75,7 +79,7 @@ public class OrdersHttpEndpointTest extends BaseOrdersIntegrationTest {
         //given
         Order order = testOrdersDatabase.saveNewOrder();
 
-        OrderDetailsQuery orderDetailsQuery = OrderDetailsQuery.of(OrderId.of(order.getId()));
+        OrderDetailsQuery orderDetailsQuery = OrderDetailsQuery.of(order.getOrderId());
 
         //when
         Response response = client().target(getRestUri())
@@ -90,7 +94,7 @@ public class OrdersHttpEndpointTest extends BaseOrdersIntegrationTest {
 
         OrderDetailsView orderDetailsView = response.readEntity(OrderDetailsView.class);
         assertThat(orderDetailsView).isNotNull();
-        assertThat(orderDetailsView.getId()).isEqualTo(order.getId());
+        assertThat(orderDetailsView.getId()).isEqualTo(order.getOrderId().getId());
         assertThat(orderDetailsView.getArrivalTime().getHour()).isEqualTo(order.getArrivalTime().getHour());
         assertThat(orderDetailsView.getArrivalTime().getMinute()).isEqualTo(order.getArrivalTime().getMinute());
     }
@@ -118,7 +122,7 @@ public class OrdersHttpEndpointTest extends BaseOrdersIntegrationTest {
         assertThat(orderDetailsViews).hasSizeGreaterThan(0);
 
         OrderDetailsView orderDetailsView = orderDetailsViews.get(0);
-        assertThat(orderDetailsView.getId()).isEqualTo(order.getId());
+        assertThat(orderDetailsView.getId()).isEqualTo(order.getOrderId().getId());
         assertThat(orderDetailsView.getArrivalTime().getHour()).isEqualTo(order.getArrivalTime().getHour());
         assertThat(orderDetailsView.getArrivalTime().getMinute()).isEqualTo(order.getArrivalTime().getMinute());
     }

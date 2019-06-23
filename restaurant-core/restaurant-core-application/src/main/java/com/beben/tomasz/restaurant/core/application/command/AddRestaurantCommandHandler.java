@@ -1,15 +1,16 @@
 package com.beben.tomasz.restaurant.core.application.command;
 
+import com.beben.tomasz.cqrs.api.command.CommandHandler;
 import com.beben.tomasz.restaurant.core.api.command.AddRestaurantCommand;
 import com.beben.tomasz.restaurant.core.application.converters.ToRestaurantAddressConverter;
 import com.beben.tomasz.restaurant.core.domain.Restaurant;
 import com.beben.tomasz.restaurant.core.domain.RestaurantFactory;
+import com.beben.tomasz.restaurant.core.domain.RestaurantId;
 import com.beben.tomasz.restaurant.core.domain.RestaurantRepository;
-import com.beben.tomasz.cqrs.api.command.CommandHandler;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class AddRestaurantCommandHandler implements CommandHandler<AddRestaurantCommand, String> {
+public class AddRestaurantCommandHandler implements CommandHandler<AddRestaurantCommand, RestaurantId> {
 
     private RestaurantRepository restaurantRepository;
 
@@ -18,7 +19,7 @@ public class AddRestaurantCommandHandler implements CommandHandler<AddRestaurant
     private ToRestaurantAddressConverter toRestaurantAddressConverter;
 
     @Override
-    public String handle(AddRestaurantCommand addRestaurantCommand) {
+    public RestaurantId handle(AddRestaurantCommand addRestaurantCommand) {
 
         Restaurant restaurant = restaurantFactory.createRestaurant(
                 addRestaurantCommand.getName(),
@@ -29,6 +30,6 @@ public class AddRestaurantCommandHandler implements CommandHandler<AddRestaurant
 
         restaurantRepository.save(restaurant);
 
-        return restaurant.getId();
+        return restaurant.getRestaurantId();
     }
 }

@@ -2,15 +2,11 @@ package com.beben.tomasz.restaurant.core.application.factory;
 
 import com.beben.tomasz.restaurant.core.domain.Address;
 import com.beben.tomasz.restaurant.core.domain.Restaurant;
-import com.beben.tomasz.restaurant.core.domain.RestaurantFactory;
-import com.beben.tomasz.restaurant.core.domain.RestaurantRepository;
-import lombok.AllArgsConstructor;
-
-import java.util.UUID;
+import com.beben.tomasz.restaurant.core.domain.RestaurantId;
 
 public class TestRestaurantFactory implements Restaurant {
 
-    public static final String TEST_RESTAURANT_ID = "TEST_RESTAURANT_ID";
+    public static final RestaurantId TEST_RESTAURANT_ID = RestaurantId.of("TEST_RESTAURANT_ID");
     public static final String TEST_STREET = "TEST_STREET";
     public static final String TEST_POSTAL_CODE = "TEST_POSTAL_CODE";
     public static final String TEST_CITY = "TEST_CITY";
@@ -24,7 +20,7 @@ public class TestRestaurantFactory implements Restaurant {
     }
 
     @Override
-    public String getId() {
+    public RestaurantId getRestaurantId() {
         return TEST_RESTAURANT_ID;
     }
 

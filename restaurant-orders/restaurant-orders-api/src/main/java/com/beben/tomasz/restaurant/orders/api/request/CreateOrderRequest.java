@@ -2,7 +2,12 @@ package com.beben.tomasz.restaurant.orders.api.request;
 
 import com.beben.tomasz.restaurant.orders.api.OrderItemView;
 import com.beben.tomasz.restaurant.orders.api.PaymentTypeView;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;

@@ -8,6 +8,7 @@ import com.beben.tomasz.restaurant.orders.application.converter.ToOrderDetailsVi
 import com.beben.tomasz.restaurant.orders.application.query.OrderReadRepository;
 import com.beben.tomasz.restaurant.orders.domain.order.Order;
 import com.beben.tomasz.restaurant.orders.domain.order.OrderStatus;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantId;
 import com.beben.tomasz.restaurant.user.api.query.RestaurantUserQuery;
 import com.beben.tomasz.restaurant.user.api.view.RestaurantUserView;
 import com.beben.tomasz.restaurant.user.api.view.RoleTypeView;
@@ -32,7 +33,7 @@ public class SearchOrderToTrackQueryHandler implements QueryHandler<SearchOrderT
         List<OrderStatus> statuses = getStatuses(restaurantUserView.getRoleTypeViews());
 
         List<Order> ordersToTrack = orderReadRepository.findOrdersToTrack(
-                restaurantUserView.getRestaurantReference(),
+                RestaurantId.of(restaurantUserView.getRestaurantReference()),
                 statuses,
                 searchOrderToTrackQuery.getPage(),
                 searchOrderToTrackQuery.getSize()

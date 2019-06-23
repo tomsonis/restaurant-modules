@@ -24,5 +24,9 @@
             <groupId>com.beben.tomasz.restaurant.commons</groupId>
             <artifactId>commons</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.beben.tomasz.restaurant.modules.core</groupId>
+            <artifactId>restaurant-core-domain</artifactId>
+        </dependency>
     </dependencies>
 </project>

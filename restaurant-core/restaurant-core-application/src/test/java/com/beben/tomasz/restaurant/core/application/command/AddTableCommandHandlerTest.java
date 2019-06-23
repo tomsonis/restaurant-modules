@@ -2,16 +2,28 @@ package com.beben.tomasz.restaurant.core.application.command;
 
 import com.beben.tomasz.restaurant.core.api.command.AddTableCommand;
 import com.beben.tomasz.restaurant.core.application.factory.TestRestaurantTableFactory;
+import com.beben.tomasz.restaurant.core.domain.RestaurantId;
 import com.beben.tomasz.restaurant.core.domain.RestaurantNotExistException;
 import com.beben.tomasz.restaurant.core.domain.RestaurantTable;
 import com.beben.tomasz.restaurant.core.domain.RestaurantTableFactory;
 import com.beben.tomasz.restaurant.core.domain.RestaurantTableRepository;
-import org.mockito.*;
+import com.beben.tomasz.restaurant.core.domain.TableId;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class AddTableCommandHandlerTest {
 
@@ -47,20 +59,21 @@ public class AddTableCommandHandlerTest {
         RestaurantTable testRestaurantTable = TestRestaurantTableFactory.createTable();
 
         //        when
-        when(restaurantTableFactory.createTable(anyString(), anyString(), anyString(), anyInt()))
+        when(restaurantTableFactory.createTable(anyString(), anyString(), any(RestaurantId.class), anyInt()))
                 .thenReturn(testRestaurantTable);
 
-        String tableId = addTableCommandHandler.handle(tableCommand);
+        TableId tableId = addTableCommandHandler.handle(tableCommand);
 
         //        then
-        assertThat(tableId).isNotBlank();
+        assertThat(tableId).isNotNull();
         assertThat(tableId).isEqualTo(TestRestaurantTableFactory.TEST_ID);
+        assertThat(tableId.getId()).isNotBlank();
 
         verify(restaurantTableRepository, times(1)).save(restaurantTableArgumentCaptor.capture());
         verifyNoMoreInteractions(restaurantTableRepository);
 
         RestaurantTable tableArgumentCaptorValue = restaurantTableArgumentCaptor.getValue();
-        assertThat(tableArgumentCaptorValue.getId()).isEqualTo(testRestaurantTable.getId());
+        assertThat(tableArgumentCaptorValue.getTableId()).isEqualTo(testRestaurantTable.getTableId());
         assertThat(tableArgumentCaptorValue.getName()).isEqualTo(testRestaurantTable.getName());
         assertThat(tableArgumentCaptorValue.getPosition()).isEqualTo(testRestaurantTable.getPosition());
         assertThat(tableArgumentCaptorValue.getRestaurantReference()).isEqualTo(testRestaurantTable.getRestaurantReference());

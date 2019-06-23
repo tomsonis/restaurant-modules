@@ -2,7 +2,6 @@ package com.beben.tomasz.restaurant.orders.application.command.confirm;
 
 import com.beben.tomasz.cqrs.api.command.CommandHandler;
 import com.beben.tomasz.restaurant.orders.api.command.ConfirmOrderCommand;
-import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
 import com.beben.tomasz.restaurant.orders.domain.order.OrdersRepository;
 import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
 import com.beben.tomasz.restaurant.orders.domain.order.event.OrderEvent;
@@ -17,10 +16,7 @@ public class ConfirmOrderCommandHandler implements CommandHandler<ConfirmOrderCo
 
     @Override
     public Void handle(ConfirmOrderCommand confirmOrderCommand) {
-        ordersRepository.readOrderToConfirm(
-                OrderId.of(
-                        confirmOrderCommand.getOrderId()
-                ))
+        ordersRepository.readOrderToConfirm(confirmOrderCommand.getOrderId())
                 .map(RestaurantOrder::confirm)
                 .flatMap(ordersRepository::save)
                 .onDefined(orderEvent::emmit);

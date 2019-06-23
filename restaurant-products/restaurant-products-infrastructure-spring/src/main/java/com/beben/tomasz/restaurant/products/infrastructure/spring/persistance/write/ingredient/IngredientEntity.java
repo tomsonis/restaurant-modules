@@ -4,9 +4,17 @@ package com.beben.tomasz.restaurant.products.infrastructure.spring.persistance.w
 import com.beben.tomasz.restaurant.products.domain.Ingredient;
 import com.beben.tomasz.restaurant.products.domain.Volume;
 import com.beben.tomasz.restaurant.products.infrastructure.spring.persistance.write.volume.VolumeEntity;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @ToString
 @EqualsAndHashCode

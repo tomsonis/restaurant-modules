@@ -2,7 +2,6 @@ package com.beben.tomasz.restaurant.orders.application.command.finish;
 
 import com.beben.tomasz.cqrs.api.command.CommandHandler;
 import com.beben.tomasz.restaurant.orders.api.command.FinishOrderCommand;
-import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
 import com.beben.tomasz.restaurant.orders.domain.order.OrdersRepository;
 import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
 import com.beben.tomasz.restaurant.orders.domain.order.event.OrderEvent;
@@ -17,10 +16,7 @@ public class FinishOrderCommandHandler implements CommandHandler<FinishOrderComm
 
     @Override
     public Void handle(FinishOrderCommand finishOrderCommand) {
-        ordersRepository.readOrderToFinish(
-                OrderId.of(
-                        finishOrderCommand.getOrderId()
-                ))
+        ordersRepository.readOrderToFinish(finishOrderCommand.getOrderId())
                 .map(RestaurantOrder::finish)
                 .flatMap(ordersRepository::save)
                 .onDefined(orderEvent::emmit);

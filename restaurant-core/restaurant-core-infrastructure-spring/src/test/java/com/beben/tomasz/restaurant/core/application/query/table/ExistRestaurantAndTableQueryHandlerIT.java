@@ -1,10 +1,10 @@
 package com.beben.tomasz.restaurant.core.application.query.table;
 
+import com.beben.tomasz.cqrs.api.query.QueryExecutor;
 import com.beben.tomasz.restaurant.core.BaseCoreIntegrationTest;
 import com.beben.tomasz.restaurant.core.api.query.ExistRestaurantAndTableQuery;
 import com.beben.tomasz.restaurant.core.domain.RestaurantTable;
 import com.beben.tomasz.restaurant.core.infrastructure.spring.persistence.RestaurantDatabase;
-import com.beben.tomasz.cqrs.api.query.QueryExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
@@ -32,7 +32,7 @@ public class ExistRestaurantAndTableQueryHandlerIT extends BaseCoreIntegrationTe
         //given
         ExistRestaurantAndTableQuery restaurantAndTableQuery = ExistRestaurantAndTableQuery.of(
                 restaurantTable.getRestaurantReference(),
-                restaurantTable.getId()
+                restaurantTable.getTableId()
         );
 
         //when

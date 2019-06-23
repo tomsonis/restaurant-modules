@@ -9,6 +9,7 @@ import com.beben.tomasz.restaurant.orders.application.model.RestaurantOrderFacto
 import com.beben.tomasz.restaurant.orders.application.query.OrderReadRepository;
 import com.beben.tomasz.restaurant.orders.domain.order.Order;
 import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
+import com.beben.tomasz.restaurant.orders.domain.order.UserId;
 import io.vavr.control.Option;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -19,7 +20,9 @@ import org.testng.annotations.Test;
 import java.util.Collections;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class OrderListQueryHandlerTest {
 
@@ -49,10 +52,10 @@ public class OrderListQueryHandlerTest {
         OrderListQuery orderListQuery = OrderListQuery.of(PAGE, SIZE);
         Option<RestaurantOrder> testOrder = RestaurantOrderFactoryTest.createOrder();
         List<Order> orderList = Collections.singletonList(testOrder.get());
-        Option<String> testUserReference = Option.of(RestaurantOrderFactoryTest.TEST_USER_REFERENCE);
+        Option<UserId> testUserReference = Option.of(RestaurantOrderFactoryTest.TEST_USER_REFERENCE);
 
         //when
-        when(contextHolder.getContext()).thenReturn(UserContext.of(testUserReference));
+        when(contextHolder.getContext()).thenReturn(UserContext.of(testUserReference.map(UserId::getId)));
         when(orderReadRepository.findOrdersByUser(testUserReference, PAGE, SIZE))
                 .thenReturn(orderList);
 

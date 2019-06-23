@@ -4,7 +4,11 @@ import com.beben.tomasz.restaurant.products.api.query.SearchProductsGroupedByCat
 import com.beben.tomasz.restaurant.products.api.view.CategoryProductsView;
 import com.beben.tomasz.restaurant.products.api.view.CategoryView;
 import com.beben.tomasz.restaurant.products.api.view.ProductView;
-import com.beben.tomasz.restaurant.products.application.converter.*;
+import com.beben.tomasz.restaurant.products.application.converter.AllergenViewConverter;
+import com.beben.tomasz.restaurant.products.application.converter.CategoryProductsViewConverter;
+import com.beben.tomasz.restaurant.products.application.converter.CategoryViewConverter;
+import com.beben.tomasz.restaurant.products.application.converter.IngredientViewConverter;
+import com.beben.tomasz.restaurant.products.application.converter.ProductViewConverter;
 import com.beben.tomasz.restaurant.products.application.model.TestCategory;
 import com.beben.tomasz.restaurant.products.application.model.TestProduct;
 import com.beben.tomasz.restaurant.products.application.query.ProductsReadRepository;

@@ -1,7 +1,12 @@
 package com.beben.tomasz.restaurant.products.infrastructure.spring.persistance.write.allergen;
 
 import com.beben.tomasz.restaurant.products.domain.Allergen;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

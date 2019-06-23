@@ -1,6 +1,10 @@
 package com.beben.tomasz.restaurant.user.infrastructure.spring.persistance.user;
 
-import com.beben.tomasz.restaurant.user.domain.*;
+import com.beben.tomasz.restaurant.user.domain.ApplicationUser;
+import com.beben.tomasz.restaurant.user.domain.AuthenticateUser;
+import com.beben.tomasz.restaurant.user.domain.UserId;
+import com.beben.tomasz.restaurant.user.domain.UserNotFoundException;
+import com.beben.tomasz.restaurant.user.domain.UserRepository;
 import io.vavr.control.Option;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;

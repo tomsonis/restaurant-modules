@@ -6,11 +6,11 @@ public interface RestaurantTableRepository {
 
     TableId generateId();
 
-    String save(RestaurantTable restaurantTable);
+    TableId save(RestaurantTable restaurantTable);
 
-    List<RestaurantTable> findByRestaurantAndDistinctCapacity(String restaurantReference);
+    List<RestaurantTable> findByRestaurantAndDistinctCapacity(RestaurantId restaurantId);
 
-    RestaurantTable find(String id);
+    RestaurantTable find(TableId id);
 
-    boolean exists(String tableId);
+    boolean exists(TableId tableId);
 }

@@ -2,7 +2,11 @@ package com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.wri
 
 import com.beben.tomasz.restaurant.orders.domain.order.OrderPayment;
 import com.beben.tomasz.restaurant.orders.domain.order.PaymentType;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;

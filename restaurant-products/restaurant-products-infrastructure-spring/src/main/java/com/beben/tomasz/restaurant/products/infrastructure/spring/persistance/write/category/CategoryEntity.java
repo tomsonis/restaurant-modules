@@ -1,12 +1,15 @@
 package com.beben.tomasz.restaurant.products.infrastructure.spring.persistance.write.category;
 
 import com.beben.tomasz.restaurant.products.domain.Category;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.UUID;
 
 @Getter
 @ToString

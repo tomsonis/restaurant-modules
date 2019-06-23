@@ -18,20 +18,20 @@ public class JpaRestaurantRepository implements RestaurantRepository {
     private EntityManager entityManager;
 
     @Override
-    public String save(Restaurant restaurant) {
+    public RestaurantId save(Restaurant restaurant) {
 
         entityManager.merge(restaurant);
 
-        return restaurant.getId();
+        return restaurant.getRestaurantId();
     }
 
     @Override
-    public Restaurant findById(String id) throws RestaurantNotExistException {
+    public Restaurant findById(RestaurantId id) throws RestaurantNotExistException {
         List<Restaurant> resultList = entityManager.createQuery(
                 "select r from RestaurantEntity r where r.id = :id",
                 Restaurant.class
         )
-                .setParameter("id", id)
+                .setParameter("id", id.getId())
                 .getResultList();
 
         if (resultList.isEmpty()) {
@@ -57,12 +57,12 @@ public class JpaRestaurantRepository implements RestaurantRepository {
     }
 
     @Override
-    public boolean exists(String restaurantId) {
+    public boolean exists(RestaurantId restaurantId) {
         List<Restaurant> resultList = entityManager.createQuery(
                         "select r from RestaurantEntity r WHERE r.id = :id",
                         Restaurant.class
                 )
-                .setParameter("id", restaurantId)
+                .setParameter("id", restaurantId.getId())
                 .getResultList();
 
         return !resultList.isEmpty();

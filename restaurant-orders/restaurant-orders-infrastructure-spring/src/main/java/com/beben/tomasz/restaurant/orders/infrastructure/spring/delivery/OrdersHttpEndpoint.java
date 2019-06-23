@@ -6,10 +6,15 @@ import com.beben.tomasz.restaurant.orders.api.OrderDetailsView;
 import com.beben.tomasz.restaurant.orders.api.query.user.OrderListQuery;
 import com.beben.tomasz.restaurant.orders.application.command.create.CreateOrderCommand;
 import com.beben.tomasz.restaurant.orders.application.query.user.details.OrderDetailsQuery;
+import com.beben.tomasz.restaurant.orders.domain.order.CreateOrderException;
 import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
-import io.vavr.control.Option;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,8 +29,8 @@ public class OrdersHttpEndpoint {
     private QueryExecutor queryExecutor;
 
     @PostMapping("create")
-    Option<OrderId> createOrder(@Valid @RequestBody CreateOrderCommand createOrderCommand) throws Exception {
-        return commandExecutor.execute(createOrderCommand);
+    OrderId createOrder(@Valid @RequestBody CreateOrderCommand createOrderCommand) throws Exception {
+        return commandExecutor.execute(createOrderCommand).getOrElseThrow(() -> new CreateOrderException("Cannot create order."));
     }
 
     @PostMapping("details")

@@ -1,15 +1,20 @@
 package com.beben.tomasz.restaurant.orders.application.command.create;
 
 
-import com.beben.tomasz.restaurant.commons.Rejection;
 import com.beben.tomasz.cqrs.api.command.Command;
 import com.beben.tomasz.restaurant.orders.domain.order.OrderClient;
 import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
 import com.beben.tomasz.restaurant.orders.domain.order.OrderItem;
 import com.beben.tomasz.restaurant.orders.domain.order.PaymentType;
-import io.vavr.control.Either;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantId;
+import com.beben.tomasz.restaurant.orders.domain.order.TableId;
 import io.vavr.control.Option;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -26,11 +31,11 @@ import java.util.Set;
 @AllArgsConstructor(staticName = "of")
 public class CreateOrderCommand implements Command<Option<OrderId>> {
 
-    @NotBlank
-    private String restaurantReference;
+    @NotNull
+    private RestaurantId restaurantReference;
 
-    @NotBlank
-    private String tableReference;
+    @NotNull
+    private TableId tableReference;
 
     @Valid
     @NotEmpty
@@ -46,7 +51,7 @@ public class CreateOrderCommand implements Command<Option<OrderId>> {
 
     private LocalTime arrivalTime;
 
-    public CreateOrderCommand(@NotBlank String tableReference, @Valid @NotEmpty @Size(min = 1) Set<OrderItem> orderItems, @NotNull PaymentType paymentType, @NotNull @Valid OrderClient client, String arrivalTime) {
+    public CreateOrderCommand(@NotBlank TableId tableReference, @Valid @NotEmpty @Size(min = 1) Set<OrderItem> orderItems, @NotNull PaymentType paymentType, @NotNull @Valid OrderClient client, String arrivalTime) {
         this.tableReference = tableReference;
         this.orderItems = orderItems;
         this.paymentType = paymentType;

@@ -1,6 +1,5 @@
 package com.beben.tomasz.restaurant.orders.domain.order;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -13,13 +12,13 @@ import java.util.UUID;
 @Getter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(staticName = "empty")
 @AllArgsConstructor(staticName = "of")
-public class OrderId implements Serializable {
+public class UserId implements Serializable {
 
     private String id;
 
-    public static OrderId generateOrderId() {
-        return new OrderId(UUID.randomUUID().toString());
+    public static UserId generateOrderId() {
+        return new UserId(UUID.randomUUID().toString());
     }
 }

@@ -1,11 +1,11 @@
 package com.beben.tomasz.restaurant.test.module;
 
 
+import com.beben.tomasz.cqrs.api.HandlerInitializer;
 import com.beben.tomasz.cqrs.api.command.Command;
 import com.beben.tomasz.cqrs.api.command.CommandHandler;
 import com.beben.tomasz.cqrs.api.query.Query;
 import com.beben.tomasz.cqrs.api.query.QueryHandler;
-import com.beben.tomasz.cqrs.api.HandlerInitializer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationListener;

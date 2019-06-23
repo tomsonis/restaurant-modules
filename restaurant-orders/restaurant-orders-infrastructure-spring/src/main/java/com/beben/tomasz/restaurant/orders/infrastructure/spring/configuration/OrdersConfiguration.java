@@ -1,7 +1,7 @@
 package com.beben.tomasz.restaurant.orders.infrastructure.spring.configuration;
 
-import com.beben.tomasz.restaurant.commons.mail.EmailService;
 import com.beben.tomasz.cqrs.api.query.QueryExecutor;
+import com.beben.tomasz.restaurant.commons.mail.EmailService;
 import com.beben.tomasz.restaurant.orders.application.converter.OrderItemConverter;
 import com.beben.tomasz.restaurant.orders.application.converter.ToClientViewConverter;
 import com.beben.tomasz.restaurant.orders.application.converter.ToOrderDetailsViewConverter;
@@ -12,7 +12,7 @@ import com.beben.tomasz.restaurant.orders.domain.order.OrdersRepository;
 import com.beben.tomasz.restaurant.orders.infrastructure.spring.event.OrderEventHandler;
 import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.read.JpaReadOrdersRepository;
 import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.write.DefaultOrderFactory;
-import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.write.JpaOrdersWriteRepository;
+import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.write.OrdersJpaRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -42,7 +42,7 @@ public class OrdersConfiguration {
     OrdersRepository ordersRepository(
             EntityManager entityManager
     ) {
-        return new JpaOrdersWriteRepository(
+        return new OrdersJpaRepository(
                 entityManager
         );
     }

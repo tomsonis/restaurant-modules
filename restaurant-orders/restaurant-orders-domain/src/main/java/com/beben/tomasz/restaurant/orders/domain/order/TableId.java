@@ -1,4 +1,4 @@
-package com.beben.tomasz.restaurant.orders.api;
+package com.beben.tomasz.restaurant.orders.domain.order;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -7,22 +7,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.math.BigDecimal;
-
+import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
+import java.util.UUID;
 
 @Getter
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(staticName = "of")
-public class OrderItemView {
+public class TableId implements Serializable {
 
+    @NotBlank
     private String id;
 
-    private String name;
-
-    private BigDecimal price;
-
-    private int quantity;
-
+    public static TableId generateOrderId() {
+        return new TableId(UUID.randomUUID().toString());
+    }
 }

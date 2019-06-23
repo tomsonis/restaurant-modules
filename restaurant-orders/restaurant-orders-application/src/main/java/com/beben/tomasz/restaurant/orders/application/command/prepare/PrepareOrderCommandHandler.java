@@ -2,7 +2,6 @@ package com.beben.tomasz.restaurant.orders.application.command.prepare;
 
 import com.beben.tomasz.cqrs.api.command.CommandHandler;
 import com.beben.tomasz.restaurant.orders.api.command.PrepareOrderCommand;
-import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
 import com.beben.tomasz.restaurant.orders.domain.order.OrdersRepository;
 import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
 import com.beben.tomasz.restaurant.orders.domain.order.event.OrderEvent;
@@ -17,10 +16,7 @@ public class PrepareOrderCommandHandler implements CommandHandler<PrepareOrderCo
 
     @Override
     public Void handle(PrepareOrderCommand prepareOrderCommand) {
-        ordersRepository.readOrderToPrepare(
-                OrderId.of(
-                        prepareOrderCommand.getOrderId()
-                ))
+        ordersRepository.readOrderToPrepare(prepareOrderCommand.getOrderId())
                 .map(RestaurantOrder::prepare)
                 .flatMap(ordersRepository::save)
                 .onDefined(orderEvent::emmit);

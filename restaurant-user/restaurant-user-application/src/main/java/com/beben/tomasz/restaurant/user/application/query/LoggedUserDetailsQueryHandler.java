@@ -1,11 +1,10 @@
 package com.beben.tomasz.restaurant.user.application.query;
 
-import com.beben.tomasz.restaurant.commons.ContextHolder;
 import com.beben.tomasz.cqrs.api.query.QueryHandler;
+import com.beben.tomasz.restaurant.commons.ContextHolder;
 import com.beben.tomasz.restaurant.user.api.query.LoggedUserDetailsQuery;
 import com.beben.tomasz.restaurant.user.api.view.UserDetailsView;
 import com.beben.tomasz.restaurant.user.application.converters.ToUserViewConverter;
-import com.beben.tomasz.restaurant.user.domain.ApplicationUser;
 import com.beben.tomasz.restaurant.user.domain.UserRepository;
 import io.vavr.control.Option;
 import lombok.AllArgsConstructor;

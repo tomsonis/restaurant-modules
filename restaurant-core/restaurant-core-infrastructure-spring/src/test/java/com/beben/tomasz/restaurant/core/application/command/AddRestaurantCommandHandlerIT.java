@@ -1,11 +1,12 @@
 package com.beben.tomasz.restaurant.core.application.command;
 
+import com.beben.tomasz.cqrs.api.command.CommandExecutor;
 import com.beben.tomasz.restaurant.commons.view.AddressView;
 import com.beben.tomasz.restaurant.core.BaseCoreIntegrationTest;
 import com.beben.tomasz.restaurant.core.api.command.AddRestaurantCommand;
 import com.beben.tomasz.restaurant.core.domain.Restaurant;
+import com.beben.tomasz.restaurant.core.domain.RestaurantId;
 import com.beben.tomasz.restaurant.core.infrastructure.spring.persistence.RestaurantDatabase;
-import com.beben.tomasz.cqrs.api.command.CommandExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
@@ -49,14 +50,15 @@ public class AddRestaurantCommandHandlerIT extends BaseCoreIntegrationTest {
                 )
         );
 
-        String restaurantId = commandExecutor.execute(restaurantCommand);
+        RestaurantId restaurantId = commandExecutor.execute(restaurantCommand);
 
-        assertThat(restaurantId).isNotBlank();
+        assertThat(restaurantId).isNotNull();
+        assertThat(restaurantId.getId()).isNotBlank();
 
         Restaurant restaurant = restaurantDatabase.findRestaurantById(restaurantId);
 
         assertThat(restaurant).isNotNull();
-        assertThat(restaurant.getId()).isEqualTo(restaurantId);
+        assertThat(restaurant.getRestaurantId()).isEqualTo(restaurantId);
         assertThat(restaurant.getName()).isEqualTo(restaurantCommand.getName());
         assertThat(restaurant.getDescription()).isEqualTo(restaurantCommand.getDescription());
         assertThat(restaurant.getPhotoUrl()).isEqualTo(restaurantCommand.getPhotoUrl());

@@ -11,10 +11,10 @@ public class ToRestaurantTableViewConverter implements Converter<RestaurantTable
     @Override
     public RestaurantTableView convert(RestaurantTable restaurantTable) {
         return RestaurantTableView.of(
-                restaurantTable.getId(),
+                restaurantTable.getTableId().getId(),
                 restaurantTable.getName(),
                 restaurantTable.getPosition(),
-                restaurantTable.getRestaurantReference(),
+                restaurantTable.getRestaurantReference().getId(),
                 restaurantTable.getCapacity()
         );
     }

@@ -2,7 +2,12 @@ package com.beben.tomasz.restaurant.orders.api;
 
 import com.beben.tomasz.restaurant.core.api.view.RestaurantTableView;
 import com.beben.tomasz.restaurant.core.api.view.RestaurantView;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

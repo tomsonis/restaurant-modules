@@ -1,8 +1,8 @@
 package com.beben.tomasz.restaurant.orders.configuration;
 
+import com.beben.tomasz.cqrs.api.query.QueryHandler;
 import com.beben.tomasz.restaurant.commons.mail.EmailService;
 import com.beben.tomasz.restaurant.core.api.query.ExistRestaurantAndTableQuery;
-import com.beben.tomasz.cqrs.api.query.QueryHandler;
 import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.TestOrdersDatabase;
 import com.beben.tomasz.restaurant.products.api.query.SearchProductByIdsQuery;
 import com.beben.tomasz.restaurant.products.api.view.ProductView;
@@ -72,7 +72,7 @@ class RestaurantUserQueryHandler implements QueryHandler<RestaurantUserQuery, Op
     @Override
     public Option<RestaurantUserView> handle(RestaurantUserQuery restaurantUserQuery) {
         return Option.of(RestaurantUserView.of(
-                TestOrdersDatabase.TEST_RESTAURANT_REFERENCE,
+                TestOrdersDatabase.TEST_RESTAURANT_REFERENCE.getId(),
                 Collections.singletonList(RoleTypeView.ROLE_WAITER)
         ));
     }

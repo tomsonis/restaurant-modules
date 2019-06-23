@@ -5,8 +5,8 @@ import com.beben.tomasz.restaurant.commons.UserContext;
 import com.beben.tomasz.restaurant.orders.application.converter.ToOrderDetailsViewConverter;
 import com.beben.tomasz.restaurant.orders.application.model.RestaurantOrderFactoryTest;
 import com.beben.tomasz.restaurant.orders.application.query.OrderReadRepository;
-import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
 import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
+import com.beben.tomasz.restaurant.orders.domain.order.UserId;
 import io.vavr.control.Option;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -14,7 +14,10 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class OrderDetailsQueryHandlerTest {
 
@@ -39,20 +42,19 @@ public class OrderDetailsQueryHandlerTest {
     public void testHandle() {
 
         //given
-        OrderId orderId = OrderId.of(RestaurantOrderFactoryTest.TEST_ORDER_ID);
-        OrderDetailsQuery orderDetailsQuery = OrderDetailsQuery.of(orderId);
+        OrderDetailsQuery orderDetailsQuery = OrderDetailsQuery.of(RestaurantOrderFactoryTest.TEST_ORDER_ID);
         Option<RestaurantOrder> testOrder = RestaurantOrderFactoryTest.createOrder();
-        Option<String> testUserReference = Option.of(RestaurantOrderFactoryTest.TEST_USER_REFERENCE);
+        Option<UserId> testUserReference = Option.of(RestaurantOrderFactoryTest.TEST_USER_REFERENCE);
 
         //when
-        when(contextHolder.getContext()).thenReturn(UserContext.of(testUserReference));
-        when(orderReadRepository.orderDetailsView(RestaurantOrderFactoryTest.TEST_ORDER_ID, testUserReference.get()))
+        when(contextHolder.getContext()).thenReturn(UserContext.of(testUserReference.map(UserId::getId)));
+        when(orderReadRepository.orderDetailsView(any()))
                 .thenReturn(Option.of(testOrder.get()));
 
         orderDetailsQueryHandler.handle(orderDetailsQuery);
 
         //then
-        verify(orderReadRepository).orderDetailsView(RestaurantOrderFactoryTest.TEST_ORDER_ID, testUserReference.get());
+        verify(orderReadRepository).orderDetailsView(RestaurantOrderFactoryTest.TEST_ORDER_ID);
         verifyNoMoreInteractions(orderReadRepository);
 
         verify(toOrderDetailsViewConverter).convert(testOrder.get());

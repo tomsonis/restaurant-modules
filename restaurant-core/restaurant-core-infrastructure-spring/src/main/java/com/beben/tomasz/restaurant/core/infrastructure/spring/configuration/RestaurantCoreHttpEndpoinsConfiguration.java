@@ -1,9 +1,9 @@
 package com.beben.tomasz.restaurant.core.infrastructure.spring.configuration;
 
-import com.beben.tomasz.restaurant.core.infrastructure.spring.delivery.RestaurantHttpEndpoint;
-import com.beben.tomasz.restaurant.core.infrastructure.spring.delivery.RestaurantTableHttpEndpoint;
 import com.beben.tomasz.cqrs.api.command.CommandExecutor;
 import com.beben.tomasz.cqrs.api.query.QueryExecutor;
+import com.beben.tomasz.restaurant.core.infrastructure.spring.delivery.RestaurantHttpEndpoint;
+import com.beben.tomasz.restaurant.core.infrastructure.spring.delivery.RestaurantTableHttpEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

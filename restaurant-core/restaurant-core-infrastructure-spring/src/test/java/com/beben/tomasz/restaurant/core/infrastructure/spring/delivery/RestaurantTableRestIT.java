@@ -46,7 +46,7 @@ public class RestaurantTableRestIT extends BaseCoreIntegrationTest {
                 TEST_NAME,
                 TEST_POS,
                 TEST_DESC,
-                restaurant.getId(),
+                restaurant.getRestaurantId(),
                 TEST_CAPACITY
         );
 
@@ -61,14 +61,14 @@ public class RestaurantTableRestIT extends BaseCoreIntegrationTest {
         assertThat(tableId).isNotNull();
         assertThat(tableId.getId()).isNotBlank();
 
-        RestaurantTable restaurantTable = restaurantDatabase.findTableById(tableId.getId());
+        RestaurantTable restaurantTable = restaurantDatabase.findTableById(tableId);
 
         assertThat(restaurantTable).isNotNull();
-        assertThat(restaurantTable.getId()).isEqualTo(tableId.getId());
+        assertThat(restaurantTable.getTableId()).isEqualTo(tableId);
         assertThat(restaurantTable.getName()).isEqualTo(TEST_NAME);
         assertThat(restaurantTable.getPosition()).isEqualTo(TEST_POS);
         assertThat(restaurantTable.getCapacity()).isEqualTo(TEST_CAPACITY);
-        assertThat(restaurantTable.getRestaurantReference()).isEqualTo(restaurant.getId());
+        assertThat(restaurantTable.getRestaurantReference()).isEqualTo(restaurant.getRestaurantId());
     }
 
     @Test
@@ -78,7 +78,7 @@ public class RestaurantTableRestIT extends BaseCoreIntegrationTest {
 
         Response response = client().target(getRestUri())
                 .path("table")
-                .path(restaurantTable.getRestaurantReference())
+                .path(restaurantTable.getRestaurantReference().getId())
                 .request()
                 .get();
 

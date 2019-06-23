@@ -1,16 +1,18 @@
 package com.beben.tomasz.restaurant.orders.application.converter;
 
+import com.beben.tomasz.cqrs.api.query.QueryExecutor;
 import com.beben.tomasz.restaurant.commons.Converter;
 import com.beben.tomasz.restaurant.core.api.query.restaurant.SearchRestaurantDetailsQuery;
 import com.beben.tomasz.restaurant.core.api.query.tables.SearchTableDetailsViewQuery;
 import com.beben.tomasz.restaurant.core.api.view.RestaurantTableView;
 import com.beben.tomasz.restaurant.core.api.view.RestaurantView;
-import com.beben.tomasz.cqrs.api.query.QueryExecutor;
+import com.beben.tomasz.restaurant.core.domain.RestaurantId;
 import com.beben.tomasz.restaurant.orders.api.OrderDetailsView;
 import com.beben.tomasz.restaurant.orders.api.OrderPaymentView;
 import com.beben.tomasz.restaurant.orders.api.OrderStatusView;
 import com.beben.tomasz.restaurant.orders.api.PaymentTypeView;
 import com.beben.tomasz.restaurant.orders.domain.order.Order;
+import com.beben.tomasz.restaurant.orders.domain.order.TableId;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,11 +29,11 @@ public class ToOrderDetailsViewConverter implements Converter<Order, OrderDetail
     @Override
     public OrderDetailsView convert(Order order) {
 
-        RestaurantTableView restaurantTableView = getRestaurantTableView(order);
+        RestaurantTableView restaurantTableView = getRestaurantTableView(order.getTableReference());
 
-        RestaurantView execute = getRestaurantView(order);
+        RestaurantView execute = getRestaurantView(order.getRestaurantReference());
         return OrderDetailsView.of(
-                order.getId(),
+                order.getOrderId().getId(),
                 toOrderItemViewConverter.convert(order.getOrderItemEntities()),
                 OrderStatusView.valueOf(order.getOrderStatus().name()),
                 OrderPaymentView.of(
@@ -46,9 +48,11 @@ public class ToOrderDetailsViewConverter implements Converter<Order, OrderDetail
         );
     }
 
-    private RestaurantView getRestaurantView(Order order) {
+    private RestaurantView getRestaurantView(com.beben.tomasz.restaurant.orders.domain.order.RestaurantId restaurantId) {
         try {
-            SearchRestaurantDetailsQuery restaurantDetailsQuery = SearchRestaurantDetailsQuery.of(order.getRestaurantReference());
+            SearchRestaurantDetailsQuery restaurantDetailsQuery = SearchRestaurantDetailsQuery.of(
+                    RestaurantId.of(restaurantId.getId())
+            );
             return queryExecutor.execute(restaurantDetailsQuery);
         } catch (Exception e) {
             log.info("Error on execute query: {}", e.getMessage());
@@ -56,9 +60,11 @@ public class ToOrderDetailsViewConverter implements Converter<Order, OrderDetail
         }
     }
 
-    private RestaurantTableView getRestaurantTableView(Order order) {
+    private RestaurantTableView getRestaurantTableView(TableId tableId) {
         try {
-            SearchTableDetailsViewQuery searchTableDetailsViewQuery = SearchTableDetailsViewQuery.of(order.getTableReference());
+            SearchTableDetailsViewQuery searchTableDetailsViewQuery = SearchTableDetailsViewQuery.of(
+                    com.beben.tomasz.restaurant.core.domain.TableId.of(tableId.getId())
+            );
             return queryExecutor.execute(searchTableDetailsViewQuery);
         } catch (Exception e) {
             log.info("Error on execute query: {}", e.getMessage());

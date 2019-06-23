@@ -6,17 +6,20 @@ import com.beben.tomasz.restaurant.user.api.query.LoggedUserDetailsQuery;
 import com.beben.tomasz.restaurant.user.api.view.UserDetailsView;
 import com.beben.tomasz.restaurant.user.application.converters.ToUserViewConverter;
 import com.beben.tomasz.restaurant.user.application.model.TestApplicationUser;
-import com.beben.tomasz.restaurant.user.domain.ApplicationUser;
 import com.beben.tomasz.restaurant.user.domain.UserRepository;
 import io.vavr.control.Option;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.beben.tomasz.restaurant.user.application.model.TestApplicationUser.TEST_USER_ID;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class LoggedUserDetailsQueryHandlerTest {
 

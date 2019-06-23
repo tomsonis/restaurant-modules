@@ -12,13 +12,13 @@ import java.util.Set;
 @AllArgsConstructor
 public class RestaurantOrder implements Order {
 
-    private String id;
+    private OrderId orderId;
 
-    private String userReference;
+    private UserId userReference;
 
-    private String restaurantReference;
+    private RestaurantId restaurantReference;
 
-    private String tableReference;
+    private TableId tableReference;
 
     private Set<OrderItem> orderItemEntities;
 
@@ -34,7 +34,7 @@ public class RestaurantOrder implements Order {
 
     public RestaurantOrder pay(Option<String> referenceNumber) {
         this.orderPayment = referenceNumber
-                .map(paymentReferenceNumber -> RestaurantOrderPayment.payuPayment(restaurantReference))
+                .map(paymentReferenceNumber -> RestaurantOrderPayment.payuPayment(restaurantReference.getId()))
                 .getOrElse(RestaurantOrderPayment.atWaiterPayment());
 
         return updateStatus(OrderStatus.PAID);

@@ -1,7 +1,7 @@
 package com.beben.tomasz.restaurant.core.api.query.restaurant;
 
-import com.beben.tomasz.restaurant.core.api.view.RestaurantView;
 import com.beben.tomasz.cqrs.api.query.Query;
+import com.beben.tomasz.restaurant.core.api.view.RestaurantView;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -6,11 +6,8 @@ import com.beben.tomasz.restaurant.orders.api.command.ConfirmOrderCommand;
 import com.beben.tomasz.restaurant.orders.api.command.PrepareOrderCommand;
 import com.beben.tomasz.restaurant.orders.application.query.restaurant.RestaurantOrderDetailsQuery;
 import com.beben.tomasz.restaurant.orders.domain.order.Order;
-import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
 import com.beben.tomasz.restaurant.orders.domain.order.OrderStatus;
-import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
 import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.TestOrdersDatabase;
-import io.vavr.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
@@ -38,9 +35,7 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
 
         //given
         Order order = testOrdersDatabase.saveNewOrder();
-        RestaurantOrderDetailsQuery restaurantOrderDetailsQuery = RestaurantOrderDetailsQuery.of(
-                OrderId.of(order.getId())
-        );
+        RestaurantOrderDetailsQuery restaurantOrderDetailsQuery = RestaurantOrderDetailsQuery.of(order.getOrderId());
 
         //when
         Response response = client().target(getRestUri())
@@ -54,7 +49,7 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
 
         OrderDetailsView orderDetailsView = response.readEntity(OrderDetailsView.class);
         assertThat(orderDetailsView).isNotNull();
-        assertThat(orderDetailsView.getId()).isEqualTo(order.getId());
+        assertThat(orderDetailsView.getId()).isEqualTo(order.getOrderId().getId());
         assertThat(orderDetailsView.getArrivalTime().getHour()).isEqualTo(order.getArrivalTime().getHour());
         assertThat(orderDetailsView.getArrivalTime().getMinute()).isEqualTo(order.getArrivalTime().getMinute());
     }
@@ -82,7 +77,7 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
         assertThat(orderDetailsViews).hasSizeGreaterThan(0);
 
         OrderDetailsView orderDetailsView = orderDetailsViews.get(0);
-        assertThat(orderDetailsView.getId()).isEqualTo(order.getId());
+        assertThat(orderDetailsView.getId()).isEqualTo(order.getOrderId().getId());
         assertThat(orderDetailsView.getArrivalTime().getHour()).isEqualTo(order.getArrivalTime().getHour());
         assertThat(orderDetailsView.getArrivalTime().getMinute()).isEqualTo(order.getArrivalTime().getMinute());
     }
@@ -93,7 +88,7 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
         Order saveNewOrder = testOrdersDatabase.saveNewOrder();
 
         ConfirmOrderCommand restaurantOrderDetailsQuery = ConfirmOrderCommand.of(
-                saveNewOrder.getId()
+                saveNewOrder.getOrderId()
         );
 
         //when
@@ -106,7 +101,7 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
         //then
         assertThat(response.getStatus()).isEqualTo(200);
 
-        Order confirmedOrder = testOrdersDatabase.findById(OrderId.of(saveNewOrder.getId()));
+        Order confirmedOrder = testOrdersDatabase.findById(saveNewOrder.getOrderId());
 
         assertThat(confirmedOrder).isNotNull();
         assertThat(confirmedOrder.getOrderStatus()).isEqualTo(OrderStatus.CONFIRMED);
@@ -115,10 +110,10 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
     @Test
     public void testPrepareOrder() throws URISyntaxException {
         //given
-        RestaurantOrder saveConfirmedOrder = testOrdersDatabase.saveConfirmedOrder();
+        Order saveConfirmedOrder = testOrdersDatabase.saveConfirmedOrder();
 
         PrepareOrderCommand restaurantOrderDetailsQuery = PrepareOrderCommand.of(
-                saveConfirmedOrder.getId()
+                saveConfirmedOrder.getOrderId()
         );
 
         //when
@@ -131,7 +126,7 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
         //then
         assertThat(response.getStatus()).isEqualTo(200);
 
-        Order preparing = testOrdersDatabase.findById(OrderId.of(saveConfirmedOrder.getId()));
+        Order preparing = testOrdersDatabase.findById(saveConfirmedOrder.getOrderId());
 
         assertThat(preparing).isNotNull();
         assertThat(preparing.getOrderStatus()).isEqualTo(OrderStatus.PREPARING);
@@ -140,10 +135,10 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
     @Test
     public void testDoneOrder() throws URISyntaxException {
         //given
-        RestaurantOrder savePreparingOrder = testOrdersDatabase.savePreparingOrder();
+        Order savePreparingOrder = testOrdersDatabase.savePreparingOrder();
 
         PrepareOrderCommand restaurantOrderDetailsQuery = PrepareOrderCommand.of(
-                savePreparingOrder.getId()
+                savePreparingOrder.getOrderId()
         );
 
         //when
@@ -156,7 +151,7 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
         //then
         assertThat(response.getStatus()).isEqualTo(200);
 
-        Order confirmedOrder = testOrdersDatabase.findById(OrderId.of(savePreparingOrder.getId()));
+        Order confirmedOrder = testOrdersDatabase.findById(savePreparingOrder.getOrderId());
 
         assertThat(confirmedOrder).isNotNull();
         assertThat(confirmedOrder.getOrderStatus()).isEqualTo(OrderStatus.DONE);
@@ -168,7 +163,7 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
         Order saveNewOrder = testOrdersDatabase.saveNewOrder();
 
         ConfirmOrderCommand restaurantOrderDetailsQuery = ConfirmOrderCommand.of(
-                saveNewOrder.getId()
+                saveNewOrder.getOrderId()
         );
 
         //when
@@ -181,7 +176,7 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
         //then
         assertThat(response.getStatus()).isEqualTo(200);
 
-        Order confirmedOrder = testOrdersDatabase.findById(OrderId.of(saveNewOrder.getId()));
+        Order confirmedOrder = testOrdersDatabase.findById(saveNewOrder.getOrderId());
 
         assertThat(confirmedOrder).isNotNull();
         assertThat(confirmedOrder.getOrderStatus()).isEqualTo(OrderStatus.PAID);
@@ -190,10 +185,10 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
     @Test
     public void testGivenOrderStatus() throws URISyntaxException {
         //given
-        RestaurantOrder saveNewOrder = testOrdersDatabase.saveFinishOrder();
+        Order saveNewOrder = testOrdersDatabase.saveFinishOrder();
 
         ConfirmOrderCommand restaurantOrderDetailsQuery = ConfirmOrderCommand.of(
-                saveNewOrder.getId()
+                saveNewOrder.getOrderId()
         );
 
         //when
@@ -206,7 +201,7 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
         //then
         assertThat(response.getStatus()).isEqualTo(200);
 
-        Order confirmedOrder = testOrdersDatabase.findById(OrderId.of(saveNewOrder.getId()));
+        Order confirmedOrder = testOrdersDatabase.findById(saveNewOrder.getOrderId());
 
         assertThat(confirmedOrder).isNotNull();
         assertThat(confirmedOrder.getOrderStatus()).isEqualTo(OrderStatus.GIVEN);
@@ -221,14 +216,14 @@ public class RestaurantOrdersHttpEndpointTest extends BaseOrdersIntegrationTest 
         Response response = client().target(getRestUri())
                 .path("restaurant/orders")
                 .path("delete")
-                .path(saveNewOrder.getId())
+                .path(saveNewOrder.getOrderId().getId())
                 .request()
                 .delete();
 
         //then
         assertThat(response.getStatus()).isEqualTo(200);
 
-        Order confirmedOrder = testOrdersDatabase.findById(OrderId.of(saveNewOrder.getId()));
+        Order confirmedOrder = testOrdersDatabase.findById(saveNewOrder.getOrderId());
 
         assertThat(confirmedOrder).isNotNull();
         assertThat(confirmedOrder.getOrderStatus()).isEqualTo(OrderStatus.DELETED);

@@ -1,6 +1,11 @@
 package com.beben.tomasz.restaurant.user.application.model;
 
-import com.beben.tomasz.restaurant.user.domain.*;
+import com.beben.tomasz.restaurant.user.domain.ApplicationUser;
+import com.beben.tomasz.restaurant.user.domain.ClientId;
+import com.beben.tomasz.restaurant.user.domain.RestaurantClient;
+import com.beben.tomasz.restaurant.user.domain.RestaurantRoleType;
+import com.beben.tomasz.restaurant.user.domain.RestaurantUser;
+import com.beben.tomasz.restaurant.user.domain.UserId;
 
 import java.util.Collection;
 import java.util.Collections;

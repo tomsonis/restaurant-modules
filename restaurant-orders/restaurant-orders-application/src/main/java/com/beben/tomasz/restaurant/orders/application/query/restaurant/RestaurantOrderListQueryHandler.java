@@ -7,6 +7,7 @@ import com.beben.tomasz.restaurant.orders.api.query.restaurant.RestaurantOrderLi
 import com.beben.tomasz.restaurant.orders.application.converter.ToOrderDetailsViewConverter;
 import com.beben.tomasz.restaurant.orders.application.query.OrderReadRepository;
 import com.beben.tomasz.restaurant.orders.domain.order.Order;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantId;
 import com.beben.tomasz.restaurant.user.api.query.RestaurantUserQuery;
 import com.beben.tomasz.restaurant.user.api.view.RestaurantUserView;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ public class RestaurantOrderListQueryHandler implements QueryHandler<RestaurantO
         RestaurantUserView restaurantUserView = queryExecutor.execute(restaurantUserQuery).get();//TODO: to refactor
 
         List<Order> restaurantOrders = orderReadRepository.findRestaurantOrders(
-                restaurantUserView.getRestaurantReference(),
+                RestaurantId.of(restaurantUserView.getRestaurantReference()),
                 restaurantOrderListQuery.getPage(),
                 restaurantOrderListQuery.getSize()
         );

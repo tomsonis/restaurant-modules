@@ -5,10 +5,9 @@ import com.beben.tomasz.cqrs.api.query.QueryHandler;
 import com.beben.tomasz.restaurant.orders.api.OrderDetailsView;
 import com.beben.tomasz.restaurant.orders.application.converter.ToOrderDetailsViewConverter;
 import com.beben.tomasz.restaurant.orders.application.query.OrderReadRepository;
-import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantId;
 import com.beben.tomasz.restaurant.user.api.query.RestaurantUserQuery;
 import com.beben.tomasz.restaurant.user.api.view.RestaurantUserView;
-import io.vavr.Tuple2;
 import io.vavr.control.Option;
 import lombok.AllArgsConstructor;
 
@@ -28,9 +27,10 @@ public class RestaurantOrderDetailsQueryHandler implements QueryHandler<Restaura
 
         return Option.of(orderDetailsQuery.getOrderId())
                 .flatMap(orderId -> orderReadRepository.restaurantOrderDetailsView(
-                        orderId.getId(),
-                        restaurantUserView.getRestaurantReference()
-                ))
+                                orderId,
+                                RestaurantId.of(restaurantUserView.getRestaurantReference())
+                        )
+                )
                 .map(order -> toOrderDetailsViewConverter.convert(order));
     }
 }

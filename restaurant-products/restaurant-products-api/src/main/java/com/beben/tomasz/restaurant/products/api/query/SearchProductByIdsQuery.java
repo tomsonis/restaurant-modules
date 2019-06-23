@@ -2,7 +2,12 @@ package com.beben.tomasz.restaurant.products.api.query;
 
 import com.beben.tomasz.cqrs.api.query.Query;
 import com.beben.tomasz.restaurant.products.api.view.ProductView;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.validation.constraints.Size;
 import java.util.List;

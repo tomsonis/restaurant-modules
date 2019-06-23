@@ -1,6 +1,8 @@
 package com.beben.tomasz.restaurant.core.api.query;
 
 import com.beben.tomasz.cqrs.api.query.Query;
+import com.beben.tomasz.restaurant.core.domain.RestaurantId;
+import com.beben.tomasz.restaurant.core.domain.TableId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(staticName = "of")
 public class ExistRestaurantAndTableQuery implements Query<Boolean> {
 
-    private String restaurantReference;
+    private RestaurantId restaurantReference;
 
-    private String tableReference;
+    private TableId tableReference;
 }

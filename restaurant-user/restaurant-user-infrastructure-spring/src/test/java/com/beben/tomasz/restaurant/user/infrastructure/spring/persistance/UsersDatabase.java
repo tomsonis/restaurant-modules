@@ -1,6 +1,5 @@
 package com.beben.tomasz.restaurant.user.infrastructure.spring.persistance;
 
-import com.beben.tomasz.restaurant.commons.ContextHolder;
 import com.beben.tomasz.restaurant.test.module.ContextHolderImpl;
 import com.beben.tomasz.restaurant.user.domain.ApplicationUser;
 import com.beben.tomasz.restaurant.user.infrastructure.spring.persistance.user.RestaurantUserEntity;
@@ -9,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.net.ContentHandler;
 import java.util.Collections;
 
 @Transactional

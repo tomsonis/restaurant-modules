@@ -1,6 +1,11 @@
 package com.beben.tomasz.restaurant.user.infrastructure.spring.configuration;
 
-import com.beben.tomasz.restaurant.user.domain.*;
+import com.beben.tomasz.restaurant.user.domain.ClientFactory;
+import com.beben.tomasz.restaurant.user.domain.ClientRepository;
+import com.beben.tomasz.restaurant.user.domain.RestaurantUserFactory;
+import com.beben.tomasz.restaurant.user.domain.RestaurantUserRepository;
+import com.beben.tomasz.restaurant.user.domain.UserFactory;
+import com.beben.tomasz.restaurant.user.domain.UserRepository;
 import com.beben.tomasz.restaurant.user.infrastructure.spring.persistance.client.DefaultClientFactory;
 import com.beben.tomasz.restaurant.user.infrastructure.spring.persistance.client.JpaClientRepository;
 import com.beben.tomasz.restaurant.user.infrastructure.spring.persistance.user.DefaultRestaurantUserFactory;

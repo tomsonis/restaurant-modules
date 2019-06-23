@@ -2,9 +2,9 @@ package com.beben.tomasz.restaurant.core.infrastructure.spring.configuration;
 
 import com.beben.tomasz.restaurant.core.application.converters.ToRestaurantTableViewConverter;
 import com.beben.tomasz.restaurant.core.application.converters.ToRestaurantViewConverter;
-import com.beben.tomasz.restaurant.core.application.query.tables.ExistRestaurantAndTableQueryHandler;
 import com.beben.tomasz.restaurant.core.application.query.restaurant.SearchByNameRestaurantQueryHandler;
 import com.beben.tomasz.restaurant.core.application.query.restaurant.SearchRestaurantDetailsQueryHandler;
+import com.beben.tomasz.restaurant.core.application.query.tables.ExistRestaurantAndTableQueryHandler;
 import com.beben.tomasz.restaurant.core.application.query.tables.SearchTableDetailsViewQueryHandler;
 import com.beben.tomasz.restaurant.core.application.query.tables.SearchTablesByRestaurantQueryHandler;
 import com.beben.tomasz.restaurant.core.domain.RestaurantRepository;

@@ -2,13 +2,13 @@ package com.beben.tomasz.restaurant.core.domain;
 
 public interface RestaurantTable {
 
-    String getId();
+    TableId getTableId();
 
     String getName();
 
     String getPosition();
 
-    String getRestaurantReference();
+    RestaurantId getRestaurantReference();
 
     int getCapacity();
 }

@@ -4,7 +4,7 @@ import com.beben.tomasz.restaurant.commons.mail.EmailService;
 import com.beben.tomasz.restaurant.orders.api.OrderDetailsView;
 import com.beben.tomasz.restaurant.orders.application.converter.ToOrderDetailsViewConverter;
 import com.beben.tomasz.restaurant.orders.domain.order.Order;
-import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderStatus;
 import com.beben.tomasz.restaurant.orders.domain.order.event.OrderEvent;
 import com.beben.tomasz.restaurant.orders.infrastructure.spring.mailtemplate.OrderCreatedMailTemplate;
 import lombok.AllArgsConstructor;
@@ -23,22 +23,27 @@ public class OrderEventHandler implements OrderEvent {
     private EmailService emailService;
 
     @Override
-    public void emmit(Order newOrder) {
-        sendNotification(newOrder, NEW_ORDER_URL);
+    public void emmit(Order order) {
+        sendNotification(order, NEW_ORDER_URL);
 
-        String orderCreatedMailTemplate = OrderCreatedMailTemplate.getOrderCreatedMailTemplate(newOrder);
-        String subject = "Zamówienie #" + newOrder.getId() + " zostało utworzone. ";
-
-        emailService.send(newOrder.getClientData().getEmail(), subject, orderCreatedMailTemplate);
-    }
-
-    @Override
-    public void emmit(RestaurantOrder confirmOrder) {
-        sendNotification(confirmOrder, ORDER_STATUS_CHANGE_URL);
+        if (isNewOrder(order)) {
+            sendEmail(order);
+        }
     }
 
     private void sendNotification(Order order, String s) {
         OrderDetailsView detailsView = toOrderDetailsViewConverter.convert(order);
-        simpMessagingTemplate.convertAndSend(s, detailsView);
+        simpMessagingTemplate.convertAndSend(ORDER_STATUS_CHANGE_URL, detailsView);
+    }
+
+    private boolean isNewOrder(Order order) {
+        return OrderStatus.CREATED.equals(order.getOrderStatus());
+    }
+
+    private void sendEmail(Order order) {
+        String orderCreatedMailTemplate = OrderCreatedMailTemplate.getOrderCreatedMailTemplate(order);
+        String subject = "Zamówienie #" + order.getOrderId() + " zostało utworzone. ";
+
+        emailService.send(order.getClientData().getEmail(), subject, orderCreatedMailTemplate);
     }
 }

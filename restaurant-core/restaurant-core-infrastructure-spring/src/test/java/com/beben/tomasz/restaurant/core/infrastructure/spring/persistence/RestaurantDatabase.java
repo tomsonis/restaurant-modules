@@ -1,7 +1,9 @@
 package com.beben.tomasz.restaurant.core.infrastructure.spring.persistence;
 
 import com.beben.tomasz.restaurant.core.domain.Restaurant;
+import com.beben.tomasz.restaurant.core.domain.RestaurantId;
 import com.beben.tomasz.restaurant.core.domain.RestaurantTable;
+import com.beben.tomasz.restaurant.core.domain.TableId;
 import lombok.AllArgsConstructor;
 
 import javax.persistence.EntityManager;
@@ -32,28 +34,28 @@ public class RestaurantDatabase {
 
     public RestaurantTable saveRestaurantTableEntity() {
         Restaurant restaurant = saveRestaurantEntity();
-        RestaurantTable restaurantTable = createRestaurantTable(restaurant.getId());
+        RestaurantTable restaurantTable = createRestaurantTable(restaurant.getRestaurantId());
 
         entityManager.persist(restaurantTable);
 
         return restaurantTable;
     }
 
-    public RestaurantTable findTableById(String id) {
-        return entityManager.find(RestaurantTableEntity.class, id);
+    public RestaurantTable findTableById(TableId tableId) {
+        return entityManager.find(RestaurantTableEntity.class, tableId.getId());
 
     }
 
-    public Restaurant findRestaurantById(String id) {
-        return entityManager.find(RestaurantEntity.class, id);
+    public Restaurant findRestaurantById(RestaurantId restaurantId) {
+        return entityManager.find(RestaurantEntity.class, restaurantId.getId());
     }
 
-    private RestaurantTable createRestaurantTable(String restaurantId) {
+    private RestaurantTable createRestaurantTable(RestaurantId restaurantId) {
         return RestaurantTableEntity.of(
                 UUID.randomUUID().toString(),
                 "TEST_RESTAURANT_TABLE_NAME",
                 "TEST_POSITION",
-                restaurantId,
+                restaurantId.getId(),
                 1
         );
     }

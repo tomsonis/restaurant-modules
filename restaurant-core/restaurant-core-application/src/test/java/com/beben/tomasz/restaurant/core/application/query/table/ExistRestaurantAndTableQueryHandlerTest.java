@@ -4,7 +4,6 @@ import com.beben.tomasz.restaurant.core.api.query.ExistRestaurantAndTableQuery;
 import com.beben.tomasz.restaurant.core.application.factory.TestRestaurantFactory;
 import com.beben.tomasz.restaurant.core.application.factory.TestRestaurantTableFactory;
 import com.beben.tomasz.restaurant.core.application.query.tables.ExistRestaurantAndTableQueryHandler;
-import com.beben.tomasz.restaurant.core.domain.RestaurantNotExistException;
 import com.beben.tomasz.restaurant.core.domain.RestaurantRepository;
 import com.beben.tomasz.restaurant.core.domain.RestaurantTableRepository;
 import org.mockito.InjectMocks;

@@ -1,5 +1,6 @@
 package com.beben.tomasz.restaurant.core.infrastructure.spring.persistence.read;
 
+import com.beben.tomasz.restaurant.core.domain.RestaurantId;
 import com.beben.tomasz.restaurant.core.domain.RestaurantTable;
 import com.beben.tomasz.restaurant.core.domain.RestaurantTableRepository;
 import com.beben.tomasz.restaurant.core.domain.TableId;
@@ -25,33 +26,33 @@ public class JpaRestaurantTableRepository implements RestaurantTableRepository {
     }
 
     @Override
-    public String save(RestaurantTable restaurantTable) {
+    public TableId save(RestaurantTable restaurantTable) {
         entityManager.persist(restaurantTable);
-        return restaurantTable.getId();
+        return restaurantTable.getTableId();
     }
 
     @Override
-    public List<RestaurantTable> findByRestaurantAndDistinctCapacity(String restaurantReference) {
+    public List<RestaurantTable> findByRestaurantAndDistinctCapacity(RestaurantId restaurantId) {
         return entityManager.createQuery(
                         "select r from RestaurantTableEntity r where r.restaurantReference = :restaurantReference ORDER BY r.capacity ASC",
                         RestaurantTable.class
                 )
-                .setParameter("restaurantReference", restaurantReference)
+                .setParameter("restaurantReference", restaurantId.getId())
                 .getResultList();
     }
 
     @Override
-    public RestaurantTable find(String id) {
-        return entityManager.find(RestaurantTableEntity.class, id);
+    public RestaurantTable find(TableId tableId) {
+        return entityManager.find(RestaurantTableEntity.class, tableId.getId());
     }
 
     @Override
-    public boolean exists(String tableId) {
+    public boolean exists(TableId tableId) {
         List<RestaurantTable> restaurantTableList = entityManager.createQuery(
                         "select r from RestaurantTableEntity r where r.id = :id",
                         RestaurantTable.class
                 )
-                .setParameter("id", tableId)
+                .setParameter("id", tableId.getId())
                 .getResultList();
 
         return !restaurantTableList.isEmpty();

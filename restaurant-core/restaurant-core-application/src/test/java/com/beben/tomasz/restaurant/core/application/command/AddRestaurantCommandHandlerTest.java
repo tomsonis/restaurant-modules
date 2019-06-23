@@ -6,14 +6,23 @@ import com.beben.tomasz.restaurant.core.application.converters.ToRestaurantAddre
 import com.beben.tomasz.restaurant.core.application.factory.TestRestaurantFactory;
 import com.beben.tomasz.restaurant.core.domain.Restaurant;
 import com.beben.tomasz.restaurant.core.domain.RestaurantFactory;
+import com.beben.tomasz.restaurant.core.domain.RestaurantId;
 import com.beben.tomasz.restaurant.core.domain.RestaurantRepository;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class AddRestaurantCommandHandlerTest {
 
@@ -59,9 +68,10 @@ public class AddRestaurantCommandHandlerTest {
         when(restaurantFactory.createRestaurant(any(), any(), any(), any()))
                 .thenReturn(restaurant);
 
-        String restaurantId = commandHandler.handle(restaurantCommand);
+        RestaurantId restaurantId = commandHandler.handle(restaurantCommand);
 
-        assertThat(restaurantId).isNotBlank();
+        assertThat(restaurantId).isNotNull();
+        assertThat(restaurantId.getId()).isNotBlank();
         assertThat(restaurantId).isEqualTo(TestRestaurantFactory.TEST_RESTAURANT_ID);
 
         verify(restaurantRepository, times(1)).save(restaurantArgumentCaptor.capture());
@@ -69,7 +79,7 @@ public class AddRestaurantCommandHandlerTest {
 
         Restaurant restaurantCaptor = restaurantArgumentCaptor.getValue();
 
-        assertThat(restaurantCaptor.getId()).isEqualTo(restaurant.getId());
+        assertThat(restaurantCaptor.getRestaurantId()).isEqualTo(restaurant.getRestaurantId());
         assertThat(restaurantCaptor.getName()).isEqualTo(restaurant.getName());
         assertThat(restaurantCaptor.getPhotoUrl()).isEqualTo(restaurant.getPhotoUrl());
         assertThat(restaurantCaptor.getAddress().getStreet()).isEqualTo(restaurant.getAddress().getStreet());

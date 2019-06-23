@@ -3,12 +3,25 @@ package com.beben.tomasz.restaurant.orders.infrastructure.spring.delivery;
 import com.beben.tomasz.cqrs.api.command.CommandExecutor;
 import com.beben.tomasz.cqrs.api.query.QueryExecutor;
 import com.beben.tomasz.restaurant.orders.api.OrderDetailsView;
-import com.beben.tomasz.restaurant.orders.api.command.*;
+import com.beben.tomasz.restaurant.orders.api.command.ConfirmOrderCommand;
+import com.beben.tomasz.restaurant.orders.api.command.DeleteOrderCommand;
+import com.beben.tomasz.restaurant.orders.api.command.FinishOrderCommand;
+import com.beben.tomasz.restaurant.orders.api.command.GivenOrderStatusCommand;
+import com.beben.tomasz.restaurant.orders.api.command.PayOrderCommand;
+import com.beben.tomasz.restaurant.orders.api.command.PrepareOrderCommand;
 import com.beben.tomasz.restaurant.orders.api.query.restaurant.RestaurantOrderListQuery;
 import com.beben.tomasz.restaurant.orders.api.query.restaurant.SearchOrderToTrackQuery;
 import com.beben.tomasz.restaurant.orders.application.query.restaurant.RestaurantOrderDetailsQuery;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
@@ -82,7 +95,9 @@ public class RestaurantOrdersHttpEndpoint {
     @DeleteMapping("delete/{orderId}")
     @RolesAllowed({"ROLE_WAITER", "ROLE_COOK", "ROLE_MANAGER", "ROLE_ADMIN"})
     void deleteOrder(@PathVariable("orderId") String orderId) throws Exception {
-        DeleteOrderCommand deleteOrderCommand = DeleteOrderCommand.of(orderId);
+        DeleteOrderCommand deleteOrderCommand = DeleteOrderCommand.of(
+                OrderId.of(orderId)
+        );
         commandExecutor.execute(deleteOrderCommand);
     }
 }

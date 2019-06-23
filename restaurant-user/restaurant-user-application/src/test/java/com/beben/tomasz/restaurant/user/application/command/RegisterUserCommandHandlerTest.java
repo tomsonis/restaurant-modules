@@ -3,17 +3,36 @@ package com.beben.tomasz.restaurant.user.application.command;
 import com.beben.tomasz.restaurant.user.api.ClientRequest;
 import com.beben.tomasz.restaurant.user.api.command.RegisterUserCommand;
 import com.beben.tomasz.restaurant.user.application.model.TestApplicationUser;
-import com.beben.tomasz.restaurant.user.domain.*;
-import org.mockito.*;
+import com.beben.tomasz.restaurant.user.domain.ApplicationUser;
+import com.beben.tomasz.restaurant.user.domain.ClientFactory;
+import com.beben.tomasz.restaurant.user.domain.RestaurantClient;
+import com.beben.tomasz.restaurant.user.domain.RestaurantUser;
+import com.beben.tomasz.restaurant.user.domain.RestaurantUserFactory;
+import com.beben.tomasz.restaurant.user.domain.UserFactory;
+import com.beben.tomasz.restaurant.user.domain.UserRepository;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
 
-import static com.beben.tomasz.restaurant.user.application.model.TestApplicationUser.*;
+import static com.beben.tomasz.restaurant.user.application.model.TestApplicationUser.TEST_CLIENT_NAME;
+import static com.beben.tomasz.restaurant.user.application.model.TestApplicationUser.TEST_CLIENT_PHONE_NUMBER;
+import static com.beben.tomasz.restaurant.user.application.model.TestApplicationUser.TEST_CLIENT_SURNAME;
+import static com.beben.tomasz.restaurant.user.application.model.TestApplicationUser.TEST_EMAIL;
+import static com.beben.tomasz.restaurant.user.application.model.TestApplicationUser.TEST_PASSWORD;
+import static com.beben.tomasz.restaurant.user.application.model.TestApplicationUser.TEST_RESTAURANT_REF;
+import static com.beben.tomasz.restaurant.user.application.model.TestApplicationUser.TEST_USERNAME;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class RegisterUserCommandHandlerTest {
 

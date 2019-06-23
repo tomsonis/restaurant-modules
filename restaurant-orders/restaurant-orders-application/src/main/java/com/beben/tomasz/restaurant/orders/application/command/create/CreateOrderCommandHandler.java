@@ -1,12 +1,19 @@
 package com.beben.tomasz.restaurant.orders.application.command.create;
 
+import com.beben.tomasz.cqrs.api.command.CommandHandler;
+import com.beben.tomasz.cqrs.api.query.QueryExecutor;
 import com.beben.tomasz.restaurant.commons.Allowance;
 import com.beben.tomasz.restaurant.commons.ContextHolder;
 import com.beben.tomasz.restaurant.commons.Rejection;
 import com.beben.tomasz.restaurant.core.api.query.ExistRestaurantAndTableQuery;
-import com.beben.tomasz.cqrs.api.command.CommandHandler;
-import com.beben.tomasz.cqrs.api.query.QueryExecutor;
-import com.beben.tomasz.restaurant.orders.domain.order.*;
+import com.beben.tomasz.restaurant.core.domain.RestaurantId;
+import com.beben.tomasz.restaurant.core.domain.TableId;
+import com.beben.tomasz.restaurant.orders.domain.order.Order;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderFactory;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderItem;
+import com.beben.tomasz.restaurant.orders.domain.order.OrdersRepository;
+import com.beben.tomasz.restaurant.orders.domain.order.UserId;
 import com.beben.tomasz.restaurant.orders.domain.order.event.OrderEvent;
 import com.beben.tomasz.restaurant.products.api.query.SearchProductByIdsQuery;
 import com.beben.tomasz.restaurant.products.api.view.ProductView;
@@ -15,7 +22,6 @@ import io.vavr.control.Either;
 import io.vavr.control.Option;
 import io.vavr.control.Try;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -40,7 +46,7 @@ public class CreateOrderCommandHandler implements CommandHandler<CreateOrderComm
     @Override
     public Option<OrderId> handle(CreateOrderCommand createOrderCommand) {
 
-        String userReference = validateUserReference()
+        UserId userId = validateUserReference()
                 .getOrElseThrow(rejection -> new IllegalArgumentException(rejection.getReasonMessage()));
 
         validateRestaurantAndTable(createOrderCommand)
@@ -48,19 +54,19 @@ public class CreateOrderCommandHandler implements CommandHandler<CreateOrderComm
                 .flatMap(this::validateOrderItems)
                 .getOrElseThrow(rejection -> new IllegalArgumentException(rejection.getReasonMessage()));
 
-        return orderFactory.createOrder(
-                        userReference,
-                        createOrderCommand.getRestaurantReference(),
-                        createOrderCommand.getTableReference(),
-                        createOrderCommand.getOrderItems(),
-                        createOrderCommand.getPaymentType(),
-                        createOrderCommand.getClient(),
-                        createOrderCommand.getArrivalTime()
-                )
-                .flatMap(ordersRepository::save)
+        Order order = orderFactory.createOrder(
+                userId,
+                createOrderCommand.getRestaurantReference(),
+                createOrderCommand.getTableReference(),
+                createOrderCommand.getOrderItems(),
+                createOrderCommand.getPaymentType(),
+                createOrderCommand.getClient(),
+                createOrderCommand.getArrivalTime()
+        );
+
+        return ordersRepository.save(order)
                 .onDefined(orderEvent::emmit)
-                .map(Order::getId)
-                .map(OrderId::of);
+                .map(Order::getOrderId);
     }
 
     private Either<Rejection, CreateOrderCommand> validateArrivalTime(CreateOrderCommand createOrderCommand) {
@@ -72,30 +78,29 @@ public class CreateOrderCommandHandler implements CommandHandler<CreateOrderComm
         return Either.right(createOrderCommand);
     }
 
-    private Either<Rejection, String> validateUserReference() {
+    private Either<Rejection, UserId> validateUserReference() {
         return contextHolder.getContext().getUserId()
                 .map(this::validUser)
-                .map(strings -> strings)
-                .getOrElse(Either.right(StringUtils.EMPTY));
+                .getOrElse(Either.right(UserId.of("")));
 
     }
 
-    private Either<Rejection, String> validUser(String userReference) {
+    private Either<Rejection, UserId> validUser(String userReference) {
         return Try.of(() -> {
                     UserExistQuery userExistQuery = UserExistQuery.of(userReference);
                     return queryExecutor.execute(userExistQuery);
                 })
                 .filter(aBoolean -> aBoolean)
-                .map(abc -> Either.<Rejection, String>right(userReference))
-                .getOrElse(Either.left(Rejection.withReason("DADAD")));
+                .map(abc -> Either.<Rejection, UserId>right(UserId.of(userReference)))
+                .getOrElse(Either.left(Rejection.withReason("User not exists.")));
 
     }
 
     private Either<Rejection, CreateOrderCommand> validateRestaurantAndTable(CreateOrderCommand createOrderCommand) {
         return Try.of(() -> {
                     ExistRestaurantAndTableQuery restaurantAndTableQuery = ExistRestaurantAndTableQuery.of(
-                            createOrderCommand.getRestaurantReference(),
-                            createOrderCommand.getTableReference()
+                            RestaurantId.of(createOrderCommand.getRestaurantReference().getId()),
+                            TableId.of(createOrderCommand.getTableReference().getId())
                     );
                     return queryExecutor.execute(restaurantAndTableQuery);
                 })

@@ -1,6 +1,10 @@
 package com.beben.tomasz.restaurant.user.infrastructure.spring.persistance.user;
 
-import com.beben.tomasz.restaurant.user.domain.*;
+import com.beben.tomasz.restaurant.user.domain.ApplicationUser;
+import com.beben.tomasz.restaurant.user.domain.RestaurantClient;
+import com.beben.tomasz.restaurant.user.domain.RestaurantUser;
+import com.beben.tomasz.restaurant.user.domain.UserFactory;
+import com.beben.tomasz.restaurant.user.domain.UserRepository;
 import com.beben.tomasz.restaurant.user.infrastructure.spring.persistance.ClientEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

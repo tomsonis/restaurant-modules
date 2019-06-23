@@ -1,7 +1,14 @@
 package com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.write;
 
-import com.beben.tomasz.restaurant.orders.domain.order.*;
-import io.vavr.control.Option;
+import com.beben.tomasz.restaurant.orders.domain.order.Order;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderClient;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderFactory;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderItem;
+import com.beben.tomasz.restaurant.orders.domain.order.OrdersRepository;
+import com.beben.tomasz.restaurant.orders.domain.order.PaymentType;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantId;
+import com.beben.tomasz.restaurant.orders.domain.order.TableId;
+import com.beben.tomasz.restaurant.orders.domain.order.UserId;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
@@ -15,10 +22,10 @@ public class DefaultOrderFactory implements OrderFactory {
     private OrdersRepository ordersRepository;
 
     @Override
-    public Option<Order> createOrder(
-            String userReference,
-            String restaurantReference,
-            String tableReference,
+    public Order createOrder(
+            UserId userReference,
+            RestaurantId restaurantReference,
+            TableId tableReference,
             Set<OrderItem> orderItems,
             PaymentType paymentType,
             OrderClient client,
@@ -27,19 +34,17 @@ public class DefaultOrderFactory implements OrderFactory {
         Set<OrderItemEntity> orderItemEntities = collectOrderItem(orderItems);
         BigDecimal totalAmount = totalAmount(orderItemEntities);
 
-        return Option.of(
-                OrderEntity.of(
+        return OrderEntity.of(
                         ordersRepository.generateId(),
-                        userReference,
-                        restaurantReference,
-                        tableReference,
+                        userReference.getId(),
+                        restaurantReference.getId(),
+                        tableReference.getId(),
                         orderItemEntities,
                         paymentType,
                         totalAmount,
                         mapClientData(client),
                         arrivalTime
-                )
-        );
+                );
     }
 
     private OrderClientData mapClientData(OrderClient client) {

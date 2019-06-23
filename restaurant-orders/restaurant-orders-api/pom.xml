@@ -20,6 +20,10 @@
             <groupId>com.beben.tomasz.restaurant.modules.core</groupId>
             <artifactId>restaurant-core-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.beben.tomasz.restaurant.modules.orders</groupId>
+            <artifactId>restaurant-orders-domain</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

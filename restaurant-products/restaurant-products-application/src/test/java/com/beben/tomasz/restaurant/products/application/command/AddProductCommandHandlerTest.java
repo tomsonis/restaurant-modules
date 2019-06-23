@@ -2,19 +2,32 @@ package com.beben.tomasz.restaurant.products.application.command;
 
 
 import com.beben.tomasz.restaurant.products.api.command.AddProductCommand;
-import com.beben.tomasz.restaurant.products.application.model.*;
+import com.beben.tomasz.restaurant.products.application.model.TestAllergen;
+import com.beben.tomasz.restaurant.products.application.model.TestCategory;
+import com.beben.tomasz.restaurant.products.application.model.TestIngredient;
+import com.beben.tomasz.restaurant.products.application.model.TestProduct;
+import com.beben.tomasz.restaurant.products.application.model.TestVolume;
 import com.beben.tomasz.restaurant.products.domain.Product;
 import com.beben.tomasz.restaurant.products.domain.ProductFactory;
 import com.beben.tomasz.restaurant.products.domain.ProductRepository;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyCollectionOf;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class AddProductCommandHandlerTest {
 

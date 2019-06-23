@@ -4,7 +4,13 @@ import com.beben.tomasz.cqrs.api.command.CommandHandler;
 import com.beben.tomasz.restaurant.user.api.ClientRequest;
 import com.beben.tomasz.restaurant.user.api.command.RegisterUserCommand;
 import com.beben.tomasz.restaurant.user.api.view.RoleTypeView;
-import com.beben.tomasz.restaurant.user.domain.*;
+import com.beben.tomasz.restaurant.user.domain.ApplicationUser;
+import com.beben.tomasz.restaurant.user.domain.ClientFactory;
+import com.beben.tomasz.restaurant.user.domain.RestaurantClient;
+import com.beben.tomasz.restaurant.user.domain.RestaurantRoleType;
+import com.beben.tomasz.restaurant.user.domain.RestaurantUserFactory;
+import com.beben.tomasz.restaurant.user.domain.UserFactory;
+import com.beben.tomasz.restaurant.user.domain.UserRepository;
 import lombok.AllArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 

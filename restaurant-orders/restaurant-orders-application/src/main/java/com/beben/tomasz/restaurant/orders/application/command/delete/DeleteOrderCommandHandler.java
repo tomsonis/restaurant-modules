@@ -2,7 +2,6 @@ package com.beben.tomasz.restaurant.orders.application.command.delete;
 
 import com.beben.tomasz.cqrs.api.command.CommandHandler;
 import com.beben.tomasz.restaurant.orders.api.command.DeleteOrderCommand;
-import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
 import com.beben.tomasz.restaurant.orders.domain.order.OrdersRepository;
 import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
 import com.beben.tomasz.restaurant.orders.domain.order.event.OrderEvent;
@@ -17,10 +16,7 @@ public class DeleteOrderCommandHandler implements CommandHandler<DeleteOrderComm
 
     @Override
     public Void handle(DeleteOrderCommand deleteOrderCommand) {
-        ordersRepository.readOrderToDelete(
-                OrderId.of(
-                        deleteOrderCommand.getOrderId()
-                ))
+        ordersRepository.readOrderToDelete(deleteOrderCommand.getOrderId())
                 .map(RestaurantOrder::delete)
                 .flatMap(ordersRepository::save)
                 .onDefined(orderEvent::emmit);

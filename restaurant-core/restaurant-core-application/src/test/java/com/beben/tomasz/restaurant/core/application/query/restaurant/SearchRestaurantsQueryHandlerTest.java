@@ -5,7 +5,6 @@ import com.beben.tomasz.restaurant.core.api.view.RestaurantView;
 import com.beben.tomasz.restaurant.core.application.AssertUtils;
 import com.beben.tomasz.restaurant.core.application.converters.ToRestaurantViewConverter;
 import com.beben.tomasz.restaurant.core.application.factory.TestRestaurantFactory;
-import com.beben.tomasz.restaurant.core.application.factory.TestRestaurantTableFactory;
 import com.beben.tomasz.restaurant.core.domain.Restaurant;
 import com.beben.tomasz.restaurant.core.domain.RestaurantRepository;
 import org.mockito.InjectMocks;
@@ -19,7 +18,9 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class SearchRestaurantsQueryHandlerTest {
 

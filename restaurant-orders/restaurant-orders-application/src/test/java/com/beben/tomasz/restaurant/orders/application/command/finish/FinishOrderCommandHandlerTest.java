@@ -2,18 +2,25 @@ package com.beben.tomasz.restaurant.orders.application.command.finish;
 
 import com.beben.tomasz.restaurant.orders.api.command.FinishOrderCommand;
 import com.beben.tomasz.restaurant.orders.application.model.RestaurantOrderFactoryTest;
-import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
+import com.beben.tomasz.restaurant.orders.domain.order.Order;
 import com.beben.tomasz.restaurant.orders.domain.order.OrderStatus;
 import com.beben.tomasz.restaurant.orders.domain.order.OrdersRepository;
 import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
 import com.beben.tomasz.restaurant.orders.domain.order.event.OrderEvent;
 import io.vavr.control.Option;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class FinishOrderCommandHandlerTest {
 
@@ -24,7 +31,7 @@ public class FinishOrderCommandHandlerTest {
     private OrderEvent orderEvent;
 
     @Captor
-    private ArgumentCaptor<RestaurantOrder> confirmOrderArgumentCaptor;
+    private ArgumentCaptor<Order> confirmOrderArgumentCaptor;
 
     @Captor
     private ArgumentCaptor<RestaurantOrder> saveDeleteOrderArgumentCaptor;
@@ -44,16 +51,18 @@ public class FinishOrderCommandHandlerTest {
         FinishOrderCommand confirmOrderCommand = FinishOrderCommand.of(
                 RestaurantOrderFactoryTest.TEST_ORDER_ID
         );
-        OrderId orderId = OrderId.of(RestaurantOrderFactoryTest.TEST_ORDER_ID);
         Option<RestaurantOrder> testOrder = RestaurantOrderFactoryTest.createOrder();
 
         //when
-        when(ordersRepository.readOrderToFinish(orderId))
+        when(ordersRepository.readOrderToFinish(RestaurantOrderFactoryTest.TEST_ORDER_ID))
                 .thenReturn(testOrder);
+
+        when(ordersRepository.save(any(RestaurantOrder.class)))
+                .thenReturn(Option.of(testOrder.get().finish()));
 
         finishOrderCommandHandler.handle(confirmOrderCommand);
 
-        verify(ordersRepository).readOrderToFinish(orderId);
+        verify(ordersRepository).readOrderToFinish(RestaurantOrderFactoryTest.TEST_ORDER_ID);
         verify(ordersRepository).save(saveDeleteOrderArgumentCaptor.capture());
         verifyNoMoreInteractions(ordersRepository);
 

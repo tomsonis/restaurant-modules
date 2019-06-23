@@ -44,7 +44,7 @@ public class OrderCreatedMailTemplate {
 
         stringBuilder.append("<p>Podgląd zamówienia: ");
         stringBuilder.append("<a href=\"http://localhost:4200/order/details/")
-                .append(newOrder.getId())
+                .append(newOrder.getOrderId())
                 .append("\">")
                 .append("link</a></p>");
 

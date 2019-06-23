@@ -1,9 +1,14 @@
 package com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance;
 
-import com.beben.tomasz.restaurant.orders.domain.order.*;
+import com.beben.tomasz.restaurant.orders.domain.order.Order;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderStatus;
+import com.beben.tomasz.restaurant.orders.domain.order.PaymentType;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantId;
+import com.beben.tomasz.restaurant.orders.domain.order.TableId;
 import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.write.OrderClientData;
 import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.write.OrderEntity;
-import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.write.OrderPaymentData;
+import com.beben.tomasz.restaurant.orders.infrastructure.spring.persistance.write.OrderItemEntity;
 import com.beben.tomasz.restaurant.test.module.ContextHolderImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,9 +27,9 @@ public class TestOrdersDatabase {
     public static final String TEST_CLIENT_SURNAME = "TEST_CLIENT_SURNAME";
     public static final String TEST_CLIENT_EMAIL = "test@email.com";
     public static final String TEST_CLIENT_PHONE_NUMBER = "000000000";
-    public static final String TEST_TABLE_REFERENCE = "TEST_TABLE_REFERENCE";
-    public static final String TEST_RESTAURANT_REFERENCE = "TEST_RESTAURANT_REFERENCE";
-    public static final String TEST_ORDER_ID = "TEST_ORDER_ID";
+    public static final TableId TEST_TABLE_REFERENCE = TableId.of("TEST_TABLE_REFERENCE");
+    public static final RestaurantId TEST_RESTAURANT_REFERENCE = RestaurantId.of("TEST_RESTAURANT_REFERENCE");
+    public static final OrderId TEST_ORDER_ID = OrderId.of("TEST_ORDER_ID");
     public static final PaymentType TEST_PAYMENT_TYPE = PaymentType.PAY_U;
 
     public static final String TEST_ORDER_ITEM_ID = "TEST_ORDER_ITEM_ID";
@@ -44,66 +49,59 @@ public class TestOrdersDatabase {
         return entityManager.find(OrderEntity.class, orderId.getId());
     }
 
-    public RestaurantOrder savePreparingOrder() {
-        RestaurantOrder orderEntity = createOrder();
-        Order order = orderEntity.prepare();
+    public Order savePreparingOrder() {
+        Order order = createOrder(OrderStatus.PREPARING);
 
         entityManager.persist(order);
 
-        return orderEntity;
+        return order;
     }
 
-    public RestaurantOrder saveConfirmedOrder() {
-        RestaurantOrder orderEntity = createOrder();
-        Order order = orderEntity.confirm();
+    public Order saveConfirmedOrder() {
+        Order order = createOrder(OrderStatus.CONFIRMED);
 
         entityManager.persist(order);
 
-        return orderEntity;
+        return order;
     }
 
     public Order saveNewOrder() {
-        Order orderEntity = createOrder();
+        Order orderEntity = createOrder(OrderStatus.CREATED);
 
         entityManager.persist(orderEntity);
 
         return orderEntity;
     }
 
-    private RestaurantOrder createOrder() {
-        return new RestaurantOrder(
-                TEST_ORDER_ID,
+    private OrderEntity createOrder(OrderStatus orderStatus) {
+        return new OrderEntity(
+                TEST_ORDER_ID.getId(),
                 ContextHolderImpl.TEST_USER_ID,
-                TEST_RESTAURANT_REFERENCE,
-                TEST_TABLE_REFERENCE,
-                Collections.singleton(OrderItem.of(
-                        TEST_ORDER_ITEM_ID,
+                TEST_RESTAURANT_REFERENCE.getId(),
+                TEST_TABLE_REFERENCE.getId(),
+                Collections.singleton(new OrderItemEntity(
                         TEST_ORDER_ITEM_NAME,
                         TEST_ORDER_ITEM_PRICE,
                         TEST_ORDER_ITEM_QUANTITY
                 )),
-                OrderStatus.CREATED,
+                orderStatus,
+                TEST_PAYMENT_TYPE,
                 TEST_ORDER_ITEM_PRICE,
-                LocalTime.now(),
-                OrderPaymentData.of(
-                        "",
-                        TEST_PAYMENT_TYPE
-                ),
                 OrderClientData.of(
                         TEST_CLIENT_NAME,
                         TEST_CLIENT_SURNAME,
                         TEST_CLIENT_EMAIL,
                         TEST_CLIENT_PHONE_NUMBER
-                )
+                ),
+                LocalTime.now()
         );
     }
 
-    public RestaurantOrder saveFinishOrder() {
-        RestaurantOrder orderEntity = createOrder();
-        Order finish = orderEntity.finish();
+    public Order saveFinishOrder() {
+        Order order = createOrder(OrderStatus.DONE);
 
-        entityManager.persist(finish);
+        entityManager.persist(order);
 
-        return orderEntity;
+        return order;
     }
 }

@@ -6,13 +6,13 @@ import java.util.Set;
 
 public interface Order {
 
-    String getId();
+    OrderId getOrderId();
 
-    String getUserReference();
+    UserId getUserReference();
 
-    String getRestaurantReference();
+    RestaurantId getRestaurantReference();
 
-    String getTableReference();
+    TableId getTableReference();
 
     Set<OrderItem> getOrderItemEntities();
 

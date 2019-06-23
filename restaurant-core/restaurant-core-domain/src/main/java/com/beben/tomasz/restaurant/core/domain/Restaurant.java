@@ -2,7 +2,7 @@ package com.beben.tomasz.restaurant.core.domain;
 
 public interface Restaurant {
 
-    String getId();
+    RestaurantId getRestaurantId();
 
     String getName();
 

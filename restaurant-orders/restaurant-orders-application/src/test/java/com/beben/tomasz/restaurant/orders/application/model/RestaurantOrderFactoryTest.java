@@ -1,6 +1,14 @@
 package com.beben.tomasz.restaurant.orders.application.model;
 
-import com.beben.tomasz.restaurant.orders.domain.order.*;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderClient;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderItem;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderStatus;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantId;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrderPayment;
+import com.beben.tomasz.restaurant.orders.domain.order.TableId;
+import com.beben.tomasz.restaurant.orders.domain.order.UserId;
 import io.vavr.control.Option;
 import lombok.Getter;
 
@@ -17,10 +25,10 @@ public class RestaurantOrderFactoryTest {
     public static final String TEST_CLIENT_SURNAME = "TEST_CLIENT_SURNAME";
     public static final String TEST_CLIENT_EMAIL = "test@email.com";
     public static final String TEST_CLIENT_PHONE_NUMBER = "000000000";
-    public static final String TEST_TABLE_REFERENCE = "TEST_TABLE_REFERENCE";
-    public static final String TEST_RESTAURANT_REFERENCE = "TEST_RESTAURANT_REFERENCE";
-    public static final String TEST_USER_REFERENCE = "TEST_USER_REFERENCE";
-    public static final String TEST_ORDER_ID = "TEST_ORDER_ID";
+    public static final TableId TEST_TABLE_REFERENCE = TableId.of("TEST_TABLE_REFERENCE");
+    public static final RestaurantId TEST_RESTAURANT_REFERENCE = RestaurantId.of("TEST_RESTAURANT_REFERENCE");
+    public static final UserId TEST_USER_REFERENCE = UserId.of("TEST_USER_REFERENCE");
+    public static final OrderId TEST_ORDER_ID = OrderId.of("TEST_ORDER_ID");
     public static final String TEST_ORDER_ITEM_ID = "TEST_ORDER_ITEM_ID";
     public static final String TEST_ORDER_ITEM_NAME = "TEST_ORDER_ITEM_NAME";
 

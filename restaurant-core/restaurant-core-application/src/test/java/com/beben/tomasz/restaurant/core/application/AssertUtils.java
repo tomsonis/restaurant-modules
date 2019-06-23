@@ -11,7 +11,7 @@ public class AssertUtils {
 
     public static void assertRestaurantView(RestaurantView restaurantView, Restaurant restaurant) {
         assertThat(restaurantView).isNotNull();
-        assertThat(restaurantView.getId()).isEqualTo(restaurant.getId());
+        assertThat(restaurantView.getId()).isEqualTo(restaurant.getRestaurantId().getId());
         assertThat(restaurantView.getName()).isEqualTo(restaurant.getName());
         assertThat(restaurantView.getPhotoUrl()).isEqualTo(restaurant.getPhotoUrl());
 
@@ -24,9 +24,9 @@ public class AssertUtils {
 
     public static void assertRestaurantTableView(RestaurantTableView restaurantTableView, RestaurantTable restaurantTable) {
         assertThat(restaurantTableView).isNotNull();
-        assertThat(restaurantTableView.getId()).isEqualTo(restaurantTable.getId());
+        assertThat(restaurantTableView.getId()).isEqualTo(restaurantTable.getTableId().getId());
         assertThat(restaurantTableView.getName()).isEqualTo(restaurantTable.getName());
-        assertThat(restaurantTableView.getRestaurantReference()).isEqualTo(restaurantTable.getRestaurantReference());
+        assertThat(restaurantTableView.getRestaurantReference()).isEqualTo(restaurantTable.getRestaurantReference().getId());
         assertThat(restaurantTableView.getPosition()).isEqualTo(restaurantTable.getPosition());
         assertThat(restaurantTableView.getCapacity()).isEqualTo(restaurantTable.getCapacity());
 

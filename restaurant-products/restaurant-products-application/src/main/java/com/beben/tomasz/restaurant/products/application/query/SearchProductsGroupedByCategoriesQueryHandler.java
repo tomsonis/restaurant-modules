@@ -4,7 +4,6 @@ import com.beben.tomasz.cqrs.api.query.QueryHandler;
 import com.beben.tomasz.restaurant.products.api.query.SearchProductsGroupedByCategoriesQuery;
 import com.beben.tomasz.restaurant.products.api.view.CategoryProductsView;
 import com.beben.tomasz.restaurant.products.application.converter.CategoryProductsViewConverter;
-import com.beben.tomasz.restaurant.products.application.query.ProductsReadRepository;
 import com.beben.tomasz.restaurant.products.domain.Category;
 import com.beben.tomasz.restaurant.products.domain.Product;
 import lombok.AllArgsConstructor;

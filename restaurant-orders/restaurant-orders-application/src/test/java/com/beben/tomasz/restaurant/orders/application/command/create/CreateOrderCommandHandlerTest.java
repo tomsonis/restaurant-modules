@@ -1,16 +1,30 @@
 package com.beben.tomasz.restaurant.orders.application.command.create;
 
-import com.beben.tomasz.restaurant.commons.ContextHolder;
-import com.beben.tomasz.restaurant.commons.EmptyContext;
-import com.beben.tomasz.restaurant.commons.UserContext;
 import com.beben.tomasz.cqrs.api.query.QueryExecutor;
+import com.beben.tomasz.restaurant.commons.ContextHolder;
+import com.beben.tomasz.restaurant.commons.UserContext;
 import com.beben.tomasz.restaurant.orders.application.model.RestaurantOrderFactoryTest;
 import com.beben.tomasz.restaurant.orders.application.model.TestOrderPayment;
-import com.beben.tomasz.restaurant.orders.domain.order.*;
+import com.beben.tomasz.restaurant.orders.domain.order.Order;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderClient;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderFactory;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderId;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderItem;
+import com.beben.tomasz.restaurant.orders.domain.order.OrderStatus;
+import com.beben.tomasz.restaurant.orders.domain.order.OrdersRepository;
+import com.beben.tomasz.restaurant.orders.domain.order.PaymentType;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantId;
+import com.beben.tomasz.restaurant.orders.domain.order.RestaurantOrder;
+import com.beben.tomasz.restaurant.orders.domain.order.TableId;
+import com.beben.tomasz.restaurant.orders.domain.order.UserId;
 import com.beben.tomasz.restaurant.orders.domain.order.event.OrderEvent;
 import com.beben.tomasz.restaurant.products.api.view.ProductView;
 import io.vavr.control.Option;
-import org.mockito.*;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -19,8 +33,11 @@ import java.time.LocalTime;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anySetOf;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 public class CreateOrderCommandHandlerTest {
 
@@ -68,8 +85,7 @@ public class CreateOrderCommandHandlerTest {
                 ),
                 RestaurantOrderFactoryTest.TEST_ARRIVAL_TIME
         );
-        Option<Order> testOrder = RestaurantOrderFactoryTest.createOrder()
-                .map(restaurantOrder -> restaurantOrder);
+        Order testOrder = RestaurantOrderFactoryTest.createOrder().get();
 
         // when
         when(queryExecutor.execute(any()))
@@ -85,18 +101,18 @@ public class CreateOrderCommandHandlerTest {
                         Collections.emptyList()
                 )));
 
-        when(contextHolder.getContext()).thenReturn(UserContext.of(Option.of(RestaurantOrderFactoryTest.TEST_USER_REFERENCE)));
+        when(contextHolder.getContext()).thenReturn(UserContext.of(Option.of(RestaurantOrderFactoryTest.TEST_USER_REFERENCE.getId())));
         when(orderFactory.createOrder(
-                anyString(),
-                anyString(),
-                anyString(),
+                any(UserId.class),
+                any(RestaurantId.class),
+                any(TableId.class),
                 anySetOf(OrderItem.class),
                 any(PaymentType.class),
                 any(OrderClient.class),
                 any(LocalTime.class))
         ).thenReturn(testOrder);
         when(ordersRepository.save(any(Order.class)))
-                .thenReturn(testOrder);
+                .thenReturn(Option.of(testOrder));
 
         Option<OrderId> orderId = createOrderCommandHandler.handle(createOrderCommand);
 

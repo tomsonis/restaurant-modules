@@ -1,7 +1,7 @@
 package com.beben.tomasz.restaurant.orders.infrastructure.spring.configuration;
 
-import com.beben.tomasz.restaurant.commons.ContextHolder;
 import com.beben.tomasz.cqrs.api.query.QueryExecutor;
+import com.beben.tomasz.restaurant.commons.ContextHolder;
 import com.beben.tomasz.restaurant.orders.application.command.confirm.ConfirmOrderCommandHandler;
 import com.beben.tomasz.restaurant.orders.application.command.create.CreateOrderCommandHandler;
 import com.beben.tomasz.restaurant.orders.application.command.delete.DeleteOrderCommandHandler;

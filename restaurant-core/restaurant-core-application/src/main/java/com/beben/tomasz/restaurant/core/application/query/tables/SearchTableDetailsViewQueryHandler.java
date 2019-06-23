@@ -1,11 +1,11 @@
 package com.beben.tomasz.restaurant.core.application.query.tables;
 
+import com.beben.tomasz.cqrs.api.query.QueryHandler;
 import com.beben.tomasz.restaurant.core.api.query.tables.SearchTableDetailsViewQuery;
 import com.beben.tomasz.restaurant.core.api.view.RestaurantTableView;
 import com.beben.tomasz.restaurant.core.application.converters.ToRestaurantTableViewConverter;
 import com.beben.tomasz.restaurant.core.domain.RestaurantTable;
 import com.beben.tomasz.restaurant.core.domain.RestaurantTableRepository;
-import com.beben.tomasz.cqrs.api.query.QueryHandler;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

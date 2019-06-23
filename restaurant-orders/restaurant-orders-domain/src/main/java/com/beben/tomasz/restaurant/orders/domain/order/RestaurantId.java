@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -15,11 +16,12 @@ import java.util.UUID;
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(staticName = "of")
-public class OrderId implements Serializable {
+public class RestaurantId implements Serializable {
 
+    @NotBlank
     private String id;
 
-    public static OrderId generateOrderId() {
-        return new OrderId(UUID.randomUUID().toString());
+    public static RestaurantId generateOrderId() {
+        return new RestaurantId(UUID.randomUUID().toString());
     }
 }
