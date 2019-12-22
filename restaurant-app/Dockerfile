@@ -6,4 +6,4 @@ ADD target/restaurant-app.jar restaurant-app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar", "-Dspring.profiles.active=docker", "restaurant-app.jar"]
+ENTRYPOINT ["java","-jar", "restaurant-app.jar"]

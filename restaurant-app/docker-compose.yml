@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  restaurant-products-app:
+    build: .
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - mysqldbserver
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldbserver:3306/javauser?serverTimezone=UTC&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_USERNAME: javauser
+      SPRING_DATASOURCE_PASSWORD: javauser
+    networks:
+      - backend
+
+  mysqldbserver:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: javauser
+      MYSQL_USER: javauser
+      MYSQL_PASSWORD: javauser
+      MYSQL_ROOT_PASSWORD: javauser
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - backend
+
+volumes:
+  db-data:
+
+networks:
+  backend:
