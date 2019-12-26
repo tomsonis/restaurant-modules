@@ -1,8 +1,18 @@
 version: '3.7'
 
 services:
+  restaurant-app-web:
+    image: restaurant-app-web
+    container_name: restaurant-products-web-container
+    depends_on:
+      - restaurant-products-app
+    hostname: localhost
+    ports:
+      - 9080:8080
+
   restaurant-products-app:
     build: .
+    container_name: restaurant-products-app-container
     ports:
       - "8080:8080"
     restart: always
@@ -17,6 +27,7 @@ services:
 
   mysqldbserver:
     image: mysql:8
+    container_name: restaurant-products-db-container
     ports:
       - "3306:3306"
     restart: always
