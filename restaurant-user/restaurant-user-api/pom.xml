@@ -13,8 +13,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.beben.tomasz.cqrs</groupId>
-            <artifactId>cqrs-api</artifactId>
+            <groupId>com.beben.tomasz.restaurant.modules.cqrs</groupId>
+            <artifactId>restaurant-cqrs-api</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.validation</groupId>

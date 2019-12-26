@@ -28,8 +28,8 @@
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.beben.tomasz.cqrs</groupId>
-            <artifactId>cqrs-application</artifactId>
+            <groupId>com.beben.tomasz.restaurant.modules.cqrs</groupId>
+            <artifactId>restaurant-cqrs-application</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

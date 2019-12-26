@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
+        <module>restaurant-cqrs</module>
         <module>restaurant-orders</module>
         <module>commons</module>
         <module>restaurant-products</module>
@@ -31,7 +32,6 @@
 
         <spring-boot.version>2.0.5.RELEASE</spring-boot.version>
         <spring.version>5.1.5.RELEASE</spring.version>
-        <cqrs.version>1.0-SNAPSHOT</cqrs.version>
     </properties>
 
     <dependencies>
@@ -154,17 +154,19 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <!--/Cqrs Module-->
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.cqrs</groupId>
+                <artifactId>restaurant-cqrs-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.beben.tomasz.restaurant.modules.cqrs</groupId>
+                <artifactId>restaurant-cqrs-application</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!--/Others Module-->
-            <dependency>
-                <groupId>com.beben.tomasz.cqrs</groupId>
-                <artifactId>cqrs-api</artifactId>
-                <version>${cqrs.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.beben.tomasz.cqrs</groupId>
-                <artifactId>cqrs-application</artifactId>
-                <version>${cqrs.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.beben.tomasz.restaurant.commons</groupId>
                 <artifactId>commons</artifactId>

@@ -18,7 +18,6 @@
     <properties>
         <restaurant-modules.version>1.0-SNAPSHOT</restaurant-modules.version>
         <docker.image.prefix>springio</docker.image.prefix>
-        <cqrs.version>1.0-SNAPSHOT</cqrs.version>
     </properties>
 
     <dependencies>
@@ -118,9 +117,9 @@
             <version>${restaurant-modules.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.beben.tomasz.cqrs</groupId>
-            <artifactId>cqrs-application</artifactId>
-            <version>${cqrs.version}</version>
+            <groupId>com.beben.tomasz.restaurant.modules.cqrs</groupId>
+            <artifactId>restaurant-cqrs-application</artifactId>
+            <version>${restaurant-modules.version}</version>
         </dependency>
 
         <!--Utils-->
